@@ -18,25 +18,18 @@ package com.googlecode.wicket.jquery.ui.chart;
 
 import java.util.List;
 
-import org.apache.wicket.model.LoadableDetachableModel;
-
-import com.googlecode.wicket.jquery.ui.chart.data.IChartData;
+import com.googlecode.wicket.jquery.core.Options;
 
 /**
  *
  * @author Sebastien Briquet - sebfz1
- * @param <T>
  *
  */
-public abstract class ChartModel<T extends IChartData> extends LoadableDetachableModel<List<T>>
+public class Series
 {
-	private static final long serialVersionUID = 1L;
-
-	public static <T extends IChartData> String toJson(ChartModel<T> model)
+	public static String toJson(List<Series> list)
 	{
 		StringBuilder builder = new StringBuilder("[ ");
-
-		List<T> list = model.getObject(); // calls #load
 
 		for (int i = 0; i < list.size(); i++)
 		{
@@ -45,7 +38,7 @@ public abstract class ChartModel<T extends IChartData> extends LoadableDetachabl
 				builder.append(", ");
 			}
 
-			ChartModel.toJson(builder, list.get(i));
+			Series.toJson(builder, list.get(i));
 		}
 
 		builder.append(" ]");
@@ -53,16 +46,54 @@ public abstract class ChartModel<T extends IChartData> extends LoadableDetachabl
 		return builder.toString();
 	}
 
-	public static <T extends IChartData> void toJson(StringBuilder builder, T bean)
+	public static void toJson(StringBuilder builder, Series series)
 	{
-		bean.toJson(builder);
+		series.toJson(builder);
 	}
 
+	private String name;
+	private ChartGallery gallery;
+
+	public Series(String name)
+	{
+		this(null, name);
+	}
 
 	/**
 	 * Constructor
 	 */
-	public ChartModel()
+	public Series(ChartGallery type, String name)
 	{
+		this.name = name;
+		this.gallery = type;
+	}
+
+	public ChartGallery getGallery()
+	{
+		return this.gallery;
+	}
+
+	public String getName()
+	{
+		return this.name;
+	}
+
+	protected CharSequence toJson(StringBuilder builder)
+	{
+		builder.append("{ ");
+
+		if (this.getGallery() != null)
+		{
+			builder.append(Options.QUOTE).append("gallery").append(Options.QUOTE).append(": ");
+			builder.append(this.getGallery());
+			builder.append(", ");
+		}
+
+		builder.append(Options.QUOTE).append("text").append(Options.QUOTE).append(": ");
+		builder.append(Options.QUOTE).append(this.getName()).append(Options.QUOTE);
+
+		builder.append(" }");
+
+		return builder;
 	}
 }

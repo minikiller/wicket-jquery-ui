@@ -9,19 +9,18 @@ import com.googlecode.wicket.jquery.ui.chart.ChartModel;
 import com.googlecode.wicket.jquery.ui.chart.Series;
 import com.googlecode.wicket.jquery.ui.chart.data.SimpleSeriesData;
 
-public class DefaultChartPage extends AbstractChartPage
+public class GalleryChartPage extends AbstractChartPage
 {
 	private static final long serialVersionUID = 1L;
 
-	public DefaultChartPage()
+	public GalleryChartPage()
 	{
 		// Chart //
 
-		Chart chart = new Chart("chart", newChartModel(), ChartGallery.Lines);
-		chart.add(new Series("Sample Series #1"));
-		chart.add(new Series("Sample Series #2"));
+		Chart chart = new Chart("chart", newChartModel());
+		chart.add(new Series(ChartGallery.Lines, "Sample Series #1"));
+		chart.add(new Series(ChartGallery.Bar, "Sample Series #2"));
 
-//		chart.setCategoryAxisName("Months");
 		this.add(chart);
 	}
 

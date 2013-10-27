@@ -49,6 +49,6 @@ public class ChartJavaScriptResourceReference extends JQueryPluginResourceRefere
 	 */
 	private ChartJavaScriptResourceReference()
 	{
-		super(ChartJavaScriptResourceReference.class, "fullcalendar.js");
+		super(ChartJavaScriptResourceReference.class, "js/jchartfx.full.js");
 	}
 }

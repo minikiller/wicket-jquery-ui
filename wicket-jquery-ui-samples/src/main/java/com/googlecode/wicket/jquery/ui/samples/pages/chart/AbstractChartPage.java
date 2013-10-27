@@ -20,7 +20,8 @@ abstract class AbstractChartPage extends SamplePage
 	protected List<DemoLink> getDemoLinks()
 	{
 		return Arrays.asList(
-				new DemoLink(DefaultChartPage.class, "Chart: sample")
+				new DemoLink(DefaultChartPage.class, "Chart: sample 1"),
+				new DemoLink(GalleryChartPage.class, "Chart: sample 2")
 			);
 	}
 }

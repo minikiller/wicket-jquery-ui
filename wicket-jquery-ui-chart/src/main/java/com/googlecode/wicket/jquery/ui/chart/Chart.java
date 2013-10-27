@@ -16,6 +16,7 @@
  */
 package com.googlecode.wicket.jquery.ui.chart;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.googlecode.wicket.jquery.core.JQueryBehavior;
@@ -32,18 +33,10 @@ public class Chart extends JQueryContainer
 {
 	private static final long serialVersionUID = 1L;
 
-	public static String toJson(ChartModel<?> model)
-	{
-		if (model != null)
-		{
-			return String.valueOf(model.toJson());
-		}
-
-		return "";
-	}
-
-
 	private final Options options;
+	private final List<Series> series;
+
+	private ChartGallery gallery; // may be null
 
 	/**
 	 * Constructor
@@ -64,7 +57,11 @@ public class Chart extends JQueryContainer
 		super(id);
 
 		this.options = options;
+		this.series = new ArrayList<Series>();
 	}
+
+	//TODO add missing ChartType ctors
+
 
 	/**
 	 * Constructor
@@ -76,6 +73,11 @@ public class Chart extends JQueryContainer
 		this(id, model, new Options());
 	}
 
+	public Chart(String id, ChartModel<?> model, ChartGallery type)
+	{
+		this(id, model, type, new Options());
+	}
+
 	/**
 	 * Constructor
 	 * @param id the markup id
@@ -84,9 +86,22 @@ public class Chart extends JQueryContainer
 	 */
 	public Chart(String id, ChartModel<?> model, Options options)
 	{
+		this(id, model, null, options);
+	}
+
+	/**
+	 * Constructor
+	 * @param id the markup id
+	 * @param model
+	 * @param options {@link Options}
+	 */
+	public Chart(String id, ChartModel<?> model, ChartGallery gallery, Options options)
+	{
 		super(id, model);
 
+		this.gallery = gallery;
 		this.options = options;
+		this.series = new ArrayList<Series>();
 	}
 
 	// Properties //
@@ -113,24 +128,17 @@ public class Chart extends JQueryContainer
 	{
 		super.onConfigure(behavior);
 
-//	    chart1.getData().setSeries(2);
-//	      chart1.getAxisY().setMin(500);
-//	      chart1.getAxisY().setMax(2000);
-//	      var series1 = chart1.getSeries().getItem(0);
-//	      var series2 = chart1.getSeries().getItem(1);
+		//dataSource
+		if (this.gallery != null) {
+			behavior.setOption("gallery", this.gallery);
+		}
 
-//		String data = "[{ 'Month': 'Jan', 'Bikes': 1800, 'Parts': 1300 },{ 'Month': 'Feb', 'Bikes': 1760, 'Parts': 900 },{ 'Month': 'Mar', 'Bikes': 1740, 'Parts': 970 },{ 'Month': 'Apr', 'Bikes': 1750, 'Parts': 1010},{ 'Month': 'May', 'Bikes': 1810, 'Parts':1070 },{ 'Month': 'Jun', 'Bikes': 1920, 'Parts': 1180 }]";
-//TODO: move to behavior?
-//		behavior.setOption("gallery", "cfx.Gallery.Pie"); //Lines
-		behavior.setOption("dataValues", Chart.toJson(this.getModel()));
+		behavior.setOption("dataValues", ChartModel.toJson(this.getModel()));
+		behavior.setOption("series", Series.toJson(this.series)); //should be *after* dataValues
+        behavior.setOption("dataGrid", "{ visible: true }");
 
-		behavior.setOption("data", "{ series: 2 }");
-		behavior.setOption("series", "[{ gallery: cfx.Gallery.Lines, text: 'My serie' }]");
-//		behavior.setOption("data", "{ series: 2 }");
-//		behavior.setOption("series", "[{ gallery: cfx.Gallery.Lines}, { gallery: cfx.Gallery.Lines}]");
-
-//chart1.getDataSourceSettings().reloadData();
-
+//		behavior.setOption("data", String.format("{ series: %s }", this.series.size()));
+//		chart1.getDataSourceSettings().reloadData();
 	}
 
 
@@ -142,6 +150,11 @@ public class Chart extends JQueryContainer
 	public JQueryBehavior newWidgetBehavior(String selector)
 	{
 		return new ChartBehavior(selector, this.options);
+	}
+
+	public void add(Series series)
+	{
+		this.series.add(series);
 	}
 
 

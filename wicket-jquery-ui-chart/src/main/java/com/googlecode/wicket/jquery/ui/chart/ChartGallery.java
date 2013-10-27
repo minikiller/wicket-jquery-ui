@@ -16,53 +16,27 @@
  */
 package com.googlecode.wicket.jquery.ui.chart;
 
-import java.util.List;
-
-import org.apache.wicket.model.LoadableDetachableModel;
-
-import com.googlecode.wicket.jquery.ui.chart.data.IChartData;
-
 /**
  *
  * @author Sebastien Briquet - sebfz1
- * @param <T>
  *
  */
-public abstract class ChartModel<T extends IChartData> extends LoadableDetachableModel<List<T>>
+public enum ChartGallery
 {
-	private static final long serialVersionUID = 1L;
+	Bar("cfx.Gallery.Bar"),
+	Pie("cfx.Gallery.Pie"),
+	Lines("cfx.Gallery.Lines");
 
-	public static <T extends IChartData> String toJson(ChartModel<T> model)
+	private String gallery;
+
+	ChartGallery(String cfx)
 	{
-		StringBuilder builder = new StringBuilder("[ ");
-
-		List<T> list = model.getObject(); // calls #load
-
-		for (int i = 0; i < list.size(); i++)
-		{
-			if (i > 0)
-			{
-				builder.append(", ");
-			}
-
-			ChartModel.toJson(builder, list.get(i));
-		}
-
-		builder.append(" ]");
-
-		return builder.toString();
+		this.gallery = cfx;
 	}
 
-	public static <T extends IChartData> void toJson(StringBuilder builder, T bean)
+	@Override
+	public String toString()
 	{
-		bean.toJson(builder);
-	}
-
-
-	/**
-	 * Constructor
-	 */
-	public ChartModel()
-	{
+		return this.gallery;
 	}
 }

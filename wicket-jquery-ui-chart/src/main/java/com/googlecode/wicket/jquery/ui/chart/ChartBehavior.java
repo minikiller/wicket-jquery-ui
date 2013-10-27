@@ -92,11 +92,20 @@ public class ChartBehavior extends JQueryBehavior implements IJQueryAjaxAware
 			this.add(settings.getChartStyleSheetReference());
 		}
 
+		// jchartfx.full.css //
+//		if (settings.getChartJavaScriptReference() != null)
+//		{
+//			this.add(settings.getChartJavaScriptReference());
+//		}
+
 		// jchartfx.xxx.js //
 		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.system.js"));
-//		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.coreBasic.js"));
+		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.coreBasic.js"));
 		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.coreVector.js"));
+
 		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.advanced.js"));
+		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.data.js"));
+		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.vector.js"));
 
 		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.ui.js"));
 	}

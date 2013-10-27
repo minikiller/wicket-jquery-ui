@@ -10,6 +10,8 @@ import java.util.List;
 
  *
  */
+//TODO to remove
+@Deprecated
 public class SeriesDataset
 {
 	protected final List<Serializable> series;

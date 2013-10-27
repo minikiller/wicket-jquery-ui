@@ -21,7 +21,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -101,7 +101,8 @@ public class Options implements IClusterable
 	 */
 	public Options()
 	{
-		this.map = new HashMap<String, Serializable>();
+		this.map = new LinkedHashMap<String, Serializable>();
+		//XXX: report change, as it now depends on insertion order, it *may* breaks some things
 	}
 
 	/**

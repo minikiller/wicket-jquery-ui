@@ -19,6 +19,7 @@ package com.googlecode.wicket.jquery.ui.chart.settings;
 import org.apache.wicket.request.resource.ResourceReference;
 
 import com.googlecode.wicket.jquery.core.settings.JQueryLibrarySettings;
+import com.googlecode.wicket.jquery.ui.chart.resource.ChartJavaScriptResourceReference;
 import com.googlecode.wicket.jquery.ui.chart.resource.ChartStyleSheetResourceReference;
 
 /**
@@ -58,5 +59,12 @@ public class ChartLibrarySettings extends JQueryLibrarySettings implements IChar
 	public ResourceReference getChartStyleSheetReference()
 	{
 		return ChartStyleSheetResourceReference.get();
+	}
+
+
+	@Override
+	public ResourceReference getChartJavaScriptReference()
+	{
+		return ChartJavaScriptResourceReference.get();
 	}
 }

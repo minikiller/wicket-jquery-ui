@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
 
+//TODO to remove
+@Deprecated
 public class ChartDataProvider implements IDataProvider<List<String>>
 {
 	private static final long serialVersionUID = 1L;

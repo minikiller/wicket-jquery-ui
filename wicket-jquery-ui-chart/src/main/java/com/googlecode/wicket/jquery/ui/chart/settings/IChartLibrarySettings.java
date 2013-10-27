@@ -64,4 +64,6 @@ public interface IChartLibrarySettings extends IJavaScriptLibrarySettings
 	 * @return the {@link ResourceReference}
 	 */
 	ResourceReference getChartStyleSheetReference();
+
+	ResourceReference getChartJavaScriptReference();
 }
