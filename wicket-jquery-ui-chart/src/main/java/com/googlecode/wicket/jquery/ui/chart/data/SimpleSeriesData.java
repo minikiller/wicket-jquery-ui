@@ -16,26 +16,38 @@
  */
 package com.googlecode.wicket.jquery.ui.chart.data;
 
-import com.googlecode.wicket.jquery.core.Options;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import com.googlecode.wicket.jquery.core.Options;
 
 /**
  * Provides a single-category series chart-object
+ *
  * @author Sebastien Briquet - sebfz1
  *
  */
 public class SimpleSeriesData implements IChartData
 {
+	private static final DateFormat ISO8601_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
 	private final String category;
 	private final Number[] values;
 
 	/**
-	 * @param category
+	 * @param category could be a ISO 8601 date string (yyyy-MM-ddTHH:mm:ss.fffZ)
 	 * @param values
 	 */
 	public SimpleSeriesData(String category, Number... values)
 	{
 		this.category = category;
+		this.values = values;
+	}
+
+	public SimpleSeriesData(Date date, Number... values)
+	{
+		this.category = ISO8601_FORMAT.format(date);
 		this.values = values;
 	}
 

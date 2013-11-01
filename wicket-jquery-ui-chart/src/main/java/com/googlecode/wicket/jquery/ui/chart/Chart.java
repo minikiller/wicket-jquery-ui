@@ -36,7 +36,7 @@ public class Chart extends JQueryContainer
 	private final Options options;
 	private final List<Series> series;
 
-	private ChartGallery gallery; // may be null
+	private Gallery gallery; // may be null
 
 	/**
 	 * Constructor
@@ -73,7 +73,7 @@ public class Chart extends JQueryContainer
 		this(id, model, new Options());
 	}
 
-	public Chart(String id, ChartModel<?> model, ChartGallery type)
+	public Chart(String id, ChartModel<?> model, Gallery type)
 	{
 		this(id, model, type, new Options());
 	}
@@ -93,9 +93,10 @@ public class Chart extends JQueryContainer
 	 * Constructor
 	 * @param id the markup id
 	 * @param model
+	 * @param gallery
 	 * @param options {@link Options}
 	 */
-	public Chart(String id, ChartModel<?> model, ChartGallery gallery, Options options)
+	public Chart(String id, ChartModel<?> model, Gallery gallery, Options options)
 	{
 		super(id, model);
 

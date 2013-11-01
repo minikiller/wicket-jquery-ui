@@ -21,7 +21,7 @@ package com.googlecode.wicket.jquery.ui.chart;
  * @author Sebastien Briquet - sebfz1
  *
  */
-public enum ChartGallery
+public enum Gallery
 {
 	Bar("cfx.Gallery.Bar"),
 	Pie("cfx.Gallery.Pie"),
@@ -29,7 +29,7 @@ public enum ChartGallery
 
 	private String gallery;
 
-	ChartGallery(String cfx)
+	Gallery(String cfx)
 	{
 		this.gallery = cfx;
 	}

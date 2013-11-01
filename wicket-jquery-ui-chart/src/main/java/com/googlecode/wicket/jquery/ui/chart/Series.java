@@ -52,7 +52,7 @@ public class Series
 	}
 
 	private String name;
-	private ChartGallery gallery;
+	private Gallery gallery;
 
 	public Series(String name)
 	{
@@ -61,14 +61,16 @@ public class Series
 
 	/**
 	 * Constructor
+	 * @param gallery
+	 * @param name
 	 */
-	public Series(ChartGallery type, String name)
+	public Series(Gallery gallery, String name)
 	{
 		this.name = name;
-		this.gallery = type;
+		this.gallery = gallery;
 	}
 
-	public ChartGallery getGallery()
+	public Gallery getGallery()
 	{
 		return this.gallery;
 	}

@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Provides a dataset bean typically used for simple charts (like {@link PieChart}
+ * Provides a dataset bean typically used for simple charts
 
  *
  */

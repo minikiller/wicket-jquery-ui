@@ -21,7 +21,8 @@ abstract class AbstractChartPage extends SamplePage
 	{
 		return Arrays.asList(
 				new DemoLink(DefaultChartPage.class, "Chart: sample 1"),
-				new DemoLink(GalleryChartPage.class, "Chart: sample 2")
+				new DemoLink(GalleryChartPage.class, "Chart: multiple chart types (galleries)"),
+				new DemoLink(DateChartPage.class, "Chart: using date")
 			);
 	}
 }

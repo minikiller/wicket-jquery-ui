@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.googlecode.wicket.jquery.ui.chart.Chart;
-import com.googlecode.wicket.jquery.ui.chart.ChartGallery;
+import com.googlecode.wicket.jquery.ui.chart.Gallery;
 import com.googlecode.wicket.jquery.ui.chart.ChartModel;
 import com.googlecode.wicket.jquery.ui.chart.Series;
 import com.googlecode.wicket.jquery.ui.chart.data.SimpleSeriesData;
@@ -16,10 +16,9 @@ public class GalleryChartPage extends AbstractChartPage
 	public GalleryChartPage()
 	{
 		// Chart //
-
 		Chart chart = new Chart("chart", newChartModel());
-		chart.add(new Series(ChartGallery.Lines, "Sample Series #1"));
-		chart.add(new Series(ChartGallery.Bar, "Sample Series #2"));
+		chart.add(new Series(Gallery.Lines, "Sample Series #1"));
+		chart.add(new Series(Gallery.Bar, "Sample Series #2"));
 
 		this.add(chart);
 	}
