@@ -18,6 +18,7 @@ package com.googlecode.wicket.jquery.ui.widget.dialog;
 
 import java.io.Serializable;
 
+import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmitter;
@@ -37,6 +38,7 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
 	 * @param title the dialog's title
 	 */
@@ -47,6 +49,7 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
 	 * @param title the dialog's title
 	 */
@@ -57,6 +60,7 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
 	 * @param title the dialog's title
 	 * @param model the dialog's model
@@ -68,6 +72,7 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
 	 * @param title the dialog's title
 	 * @param model the dialog's model
@@ -79,6 +84,7 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
 	 * @param title the dialog's title
 	 * @param modal indicates whether the dialog is modal
@@ -90,6 +96,7 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
 	 * @param title the dialog's title
 	 * @param modal indicates whether the dialog is modal
@@ -101,6 +108,7 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
 	 * @param title the dialog's title
 	 * @param model the dialog's model
@@ -113,6 +121,7 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
 	 * @param title the dialog's title
 	 * @param model the dialog's model
@@ -123,44 +132,44 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 		super(id, title, model, modal);
 	}
 
-
 	// Properties //
+
 	/**
 	 * Gets the button that is in charge to submit the form.<br/>
 	 * It should be in the list of buttons returned by {@link #getButtons()}
+	 *
 	 * @return the submit button
 	 */
 	protected abstract DialogButton getSubmitButton();
 
-
 	/**
-	 * Returns whether form should be processed the default way. When false (default is true), all
-	 * validation and form updating is bypassed and the onSubmit method of that button is called
-	 * directly, and the onSubmit method of the parent form is not called. A common use for this is
-	 * to create a cancel button.
+	 * Returns whether form should be processed the default way. When false (default is true), all validation and form updating is bypassed and the onSubmit method of that button is called directly, and the onSubmit method of the parent
+	 * form is not called. A common use for this is to create a cancel button.
 	 *
 	 * @return defaultFormProcessing
 	 */
 	public boolean getDefaultFormProcessing()
 	{
-		return true; //default
+		return true; // default
 	}
 
 	/**
 	 * Gets the form to be validated by this dialog.<br/>
 	 * Warning, the onSubmit and the onError are being delegated to this dialog. However, it does not prevent the use of Form#onSubmit nor Form#onError
+	 *
 	 * @return the form
 	 */
 	public abstract Form<?> getForm();
 
 	/**
 	 * Returns the form associated to the button.<br/>
-	 * It means that it will return the form if the button is the submit button and null otherwise.
-	 * The callback script will differ depending on this.
+	 * It means that it will return the form if the button is the submit button and null otherwise. The callback script will differ depending on this.
 	 *
 	 * @param button the dialog's button
 	 * @return the {@link Form} or <code>null</code>
 	 */
+	@SuppressWarnings("deprecation")
+	// XXX: remove SuppressWarnings in wicket-6.12.0-next
 	protected Form<?> getForm(DialogButton button)
 	{
 		if (button.equals(this.getSubmitButton()))
@@ -171,8 +180,18 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 		return null;
 	}
 
-
 	// Events //
+	@Override
+	protected void onInitialize()
+	{
+		if (this.getForm() == null)
+		{
+			throw new WicketRuntimeException("The form should not be null at this stage"); // if null, will not be available to the DialogBehavior
+		}
+
+		super.onInitialize();
+	}
+
 	@Override
 	void internalOnClick(AjaxRequestTarget target, DialogButton button)
 	{
@@ -180,39 +199,41 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 
 		if (form != null)
 		{
-			form.onFormSubmitted(new DialogFormSubmitter(target));
+			form.getRootForm().onFormSubmitted(new DialogFormSubmitter(target));
 
 			if (!form.hasError())
 			{
-				this.onClick(target, button); //fires onClick (& closes the dialog by default)
+				this.onClick(target, button); // fires onClick (& closes the dialog by default)
 			}
 		}
 		else
 		{
-			this.onClick(target, button); //fires onClick (& closes the dialog by default)
+			this.onClick(target, button); // fires onClick (& closes the dialog by default)
 		}
 	}
 
 	@Override
 	public void onClose(AjaxRequestTarget target, DialogButton button)
 	{
-		//not mandatory to override
+		// not mandatory to override
 	}
 
 	/**
 	 * Triggered after {@link Form#onError()} (when the form processing has error(s))
+	 *
 	 * @param target
 	 */
 	protected abstract void onError(AjaxRequestTarget target);
 
 	/**
 	 * Triggered after {@link Form#onSubmit()} (the form has been submitted and it does not have error)
-	 * @param target
+	 *
+	 * @param target the {@link AjaxRequestTarget}
 	 */
 	protected abstract void onSubmit(AjaxRequestTarget target);
 
-
 	// Factories //
+
 	/**
 	 * Gets the {@link ButtonAjaxPostBehavior} associated to the specified button.
 	 *
@@ -224,7 +245,6 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 		return new ButtonAjaxPostBehavior(source, button, this.getForm(button));
 	}
 
-
 	/**
 	 * Provides the form-dialog {@link IFormSubmitter}<br/>
 	 * This is basically the same technic used in AjaxButton class.
@@ -235,6 +255,7 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 
 		/**
 		 * Constructor
+		 *
 		 * @param target the {@link AjaxRequestTarget}
 		 */
 		public DialogFormSubmitter(AjaxRequestTarget target)
@@ -269,7 +290,7 @@ public abstract class AbstractFormDialog<T extends Serializable> extends Abstrac
 		@Override
 		public void onAfterSubmit()
 		{
-			//wicket6
+			// wicket6
 		}
 	}
 }

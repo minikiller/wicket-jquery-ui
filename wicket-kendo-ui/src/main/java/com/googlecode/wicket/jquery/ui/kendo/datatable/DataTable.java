@@ -47,31 +47,33 @@ public class DataTable<T> extends WebComponent implements IJQueryWidget, IDataTa
 	private AbstractAjaxBehavior sourceBehavior;
 
 	private final Options options;
-	private final List<? extends IColumn<T>> columns;
+	private final List<? extends IColumn> columns;
 	private final IDataProvider<T> provider;
 	private final long rows;
 
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
 	 * @param columns the list of {@link IColumn}
 	 * @param provider the {@link IDataProvider}
 	 * @param rows the number of rows per page to be displayed
 	 */
-	public DataTable(String id, final List<? extends IColumn<T>> columns, final IDataProvider<T> provider, final long rows)
+	public DataTable(String id, final List<? extends IColumn> columns, final IDataProvider<T> provider, final long rows)
 	{
 		this(id, columns, provider, rows, new Options());
 	}
 
 	/**
 	 * Main constructor
+	 *
 	 * @param id the markup id
 	 * @param columns the list of {@link IColumn}
 	 * @param provider the {@link IDataProvider}
 	 * @param rows the number of rows per page to be displayed
 	 * @param options the {@link Options}
 	 */
-	public DataTable(String id, final List<? extends IColumn<T>> columns, final IDataProvider<T> provider, final long rows, Options options)
+	public DataTable(String id, final List<? extends IColumn> columns, final IDataProvider<T> provider, final long rows, Options options)
 	{
 		super(id);
 
@@ -81,10 +83,10 @@ public class DataTable<T> extends WebComponent implements IJQueryWidget, IDataTa
 		this.rows = rows;
 	}
 
-
 	// Methods //
 	/**
 	 * Reloads data and refreshes the {@link DataTable}
+	 *
 	 * @param target the {@link AjaxRequestTarget}
 	 */
 	public void refresh(AjaxRequestTarget target)
@@ -92,13 +94,11 @@ public class DataTable<T> extends WebComponent implements IJQueryWidget, IDataTa
 		target.appendJavaScript(String.format("var grid = jQuery('%s').data('kendoGrid'); grid.dataSource.read(); grid.refresh();", JQueryWidget.getSelector(this)));
 	}
 
-
 	// Properties //
 	protected List<ColumnButton> getButtons()
 	{
 		return Collections.emptyList();
 	}
-
 
 	// Events //
 	@Override
@@ -107,7 +107,7 @@ public class DataTable<T> extends WebComponent implements IJQueryWidget, IDataTa
 		super.onInitialize();
 
 		this.add(this.sourceBehavior = this.newDataSourceBehavior(this.columns, this.provider, this.rows));
-		this.add(JQueryWidget.newWidgetBehavior(this)); //cannot be in ctor as the markupId may be set manually afterward
+		this.add(JQueryWidget.newWidgetBehavior(this)); // cannot be in ctor as the markupId may be set manually afterward
 	}
 
 	@Override
@@ -123,14 +123,13 @@ public class DataTable<T> extends WebComponent implements IJQueryWidget, IDataTa
 	@Override
 	public void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag)
 	{
-		this.replaceComponentTagBody(markupStream, openTag, ""); //Empty tag body; Fixes #45
+		this.replaceComponentTagBody(markupStream, openTag, ""); // Empty tag body; Fixes #45
 	}
 
 	@Override
 	public void onClick(AjaxRequestTarget target, ColumnButton button, String value)
 	{
 	}
-
 
 	// IJQueryWidget //
 	@Override
@@ -141,7 +140,7 @@ public class DataTable<T> extends WebComponent implements IJQueryWidget, IDataTa
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected List<? extends IColumn<T>> getColumns()
+			protected List<? extends IColumn> getColumns()
 			{
 				return DataTable.this.columns;
 			}
@@ -173,7 +172,6 @@ public class DataTable<T> extends WebComponent implements IJQueryWidget, IDataTa
 		};
 	}
 
-
 	// Factories //
 	/**
 	 * Gets a new {@link DataSourceBehavior}
@@ -183,14 +181,14 @@ public class DataTable<T> extends WebComponent implements IJQueryWidget, IDataTa
 	 * @param rows the number of rows per page to be displayed
 	 * @return the {@link AbstractAjaxBehavior}
 	 */
-	protected AbstractAjaxBehavior newDataSourceBehavior(final List<? extends IColumn<T>> columns, final IDataProvider<T> provider, final long rows)
+	protected AbstractAjaxBehavior newDataSourceBehavior(final List<? extends IColumn> columns, final IDataProvider<T> provider, final long rows)
 	{
 		return new DataSourceBehavior<T>(columns, provider, rows);
 	}
 
 	/**
 	 * Gets a new {@link ButtonAjaxBehavior} that will be called by the corresponding {@link ColumnButton}.<br/>
-	 * This method mays be overridden to provide additional behaviors
+	 * This method may be overridden to provide additional behaviors
 	 *
 	 * @param source the {@link IJQueryAjaxAware} source
 	 * @param button the button that is passed to the behavior so it can be retrieved via the {@link ClickEvent}

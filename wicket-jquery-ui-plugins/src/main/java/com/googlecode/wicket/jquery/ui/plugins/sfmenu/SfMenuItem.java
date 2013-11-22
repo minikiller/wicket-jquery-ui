@@ -29,6 +29,7 @@ import org.apache.wicket.model.Model;
  *
  * @author Ludger Kluitmann - JavaLuigi
  * @author Sebastien Briquet - sebfz1
+ * @since 6.12.0
  */
 public class SfMenuItem extends AbstractSfMenuItem
 {
@@ -36,6 +37,28 @@ public class SfMenuItem extends AbstractSfMenuItem
 
 	/** children items */
 	private final List<ISfMenuItem> items;
+
+	/**
+	 * Constructor
+	 *
+	 * @param title the title of the menu-item
+	 */
+	public SfMenuItem(String title)
+	{
+		this(Model.of(title));
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param title IModel that represents the title of the menu-item
+	 */
+	public SfMenuItem(IModel<String> title)
+	{
+		super(title);
+
+		this.items = new ArrayList<ISfMenuItem>();
+	}
 
 	/**
 	 * Constructor
@@ -51,7 +74,7 @@ public class SfMenuItem extends AbstractSfMenuItem
 	/**
 	 * Constructor
 	 *
-	 * @param title IModel that represent the title of the menu-item
+	 * @param title IModel that represents the title of the menu-item
 	 * @param pageClass the class of the page to redirect to, when menu-item is clicked
 	 */
 	public SfMenuItem(IModel<String> title, Class<? extends WebPage> pageClass)
@@ -76,7 +99,7 @@ public class SfMenuItem extends AbstractSfMenuItem
 	/**
 	 * Constructor
 	 *
-	 * @param title IModel that represent the title of the menu-item
+	 * @param title IModel that represents the title of the menu-item
 	 * @param items the sub-menu items
 	 */
 	public SfMenuItem(IModel<String> title, List<ISfMenuItem> items)
@@ -102,7 +125,7 @@ public class SfMenuItem extends AbstractSfMenuItem
 	/**
 	 * Constructor
 	 *
-	 * @param title IModel that represent the title of the menu-item
+	 * @param title IModel that represents the title of the menu-item
 	 * @param pageClass the class of the page to redirect to, when menu-item is clicked
 	 * @param items the sub-menu items
 	 */
@@ -111,6 +134,54 @@ public class SfMenuItem extends AbstractSfMenuItem
 		super(title, pageClass);
 
 		this.items = items;
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param title title of the menu-item
+	 * @param pageUrl the url of the page to redirect to when menu-item is clicked
+	 */
+	public SfMenuItem(String title, String pageUrl)
+	{
+		this(Model.of(title), pageUrl, false);
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param title IModel that represents the title of the menu-item
+	 * @param pageUrl the url of the page to redirect to when menu-item is clicked
+	 */
+	public SfMenuItem(Model<String> title, String pageUrl)
+	{
+		this(title, pageUrl, false);
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param title title of the menu-item
+	 * @param pageUrl the url of the page to redirect to when menu-item is clicked
+	 * @param openInNewWindow whether the page is opened in a new window
+	 */
+	public SfMenuItem(String title, String pageUrl, boolean openInNewWindow)
+	{
+		this(Model.of(title), pageUrl, openInNewWindow);
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param title IModel that represents the title of the menu-item
+	 * @param pageUrl the url of the page to redirect to when menu-item is clicked
+	 * @param openInNewWindow whether the page is opened in a new window
+	 */
+	public SfMenuItem(IModel<String> title, String pageUrl, boolean openInNewWindow)
+	{
+		super(title, pageUrl, openInNewWindow);
+
+		this.items = new ArrayList<ISfMenuItem>();
 	}
 
 	// Properties //
@@ -133,5 +204,4 @@ public class SfMenuItem extends AbstractSfMenuItem
 	{
 		return this.items.add(item);
 	}
-
 }
