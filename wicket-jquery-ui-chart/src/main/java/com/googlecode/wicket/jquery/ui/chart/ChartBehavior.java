@@ -18,16 +18,15 @@ package com.googlecode.wicket.jquery.ui.chart;
 
 import org.apache.wicket.Application;
 import org.apache.wicket.Component;
+import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.settings.IJavaScriptLibrarySettings;
 
 import com.googlecode.wicket.jquery.core.JQueryBehavior;
 import com.googlecode.wicket.jquery.core.JQueryEvent;
 import com.googlecode.wicket.jquery.core.Options;
 import com.googlecode.wicket.jquery.core.ajax.IJQueryAjaxAware;
-import com.googlecode.wicket.jquery.ui.chart.settings.ChartLibrarySettings;
 import com.googlecode.wicket.jquery.ui.chart.settings.IChartLibrarySettings;
 
 /**
@@ -53,7 +52,7 @@ public class ChartBehavior extends JQueryBehavior implements IJQueryAjaxAware
 			return (IChartLibrarySettings) Application.get().getJavaScriptLibrarySettings();
 		}
 
-		return ChartLibrarySettings.get();
+		return null;
 	}
 
 	/**
@@ -86,28 +85,24 @@ public class ChartBehavior extends JQueryBehavior implements IJQueryAjaxAware
 	{
 		IChartLibrarySettings settings = getLibrarySettings();
 
-		// jchartfx.css //
-		if (settings.getChartStyleSheetReference() != null)
+		if (settings != null)
 		{
-			this.add(settings.getChartStyleSheetReference());
+			// jchartfx.css //
+			if (settings.getChartStyleSheetReference() != null)
+			{
+				this.add(settings.getChartStyleSheetReference());
+			}
+
+			// jchartfx.full.css //
+			if (settings.getChartJavaScriptReference() != null)
+			{
+				this.add(settings.getChartJavaScriptReference());
+			}
 		}
-
-		// jchartfx.full.css //
-//		if (settings.getChartJavaScriptReference() != null)
-//		{
-//			this.add(settings.getChartJavaScriptReference());
-//		}
-
-		// jchartfx.xxx.js //
-		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.system.js"));
-		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.coreBasic.js"));
-		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.coreVector.js"));
-
-		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.advanced.js"));
-		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.data.js"));
-		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.vector.js"));
-
-		this.add(new JavaScriptResourceReference(ChartBehavior.class, "resource/js/jchartfx.ui.js"));
+		else
+		{
+			throw new WicketRuntimeException("Unable to load chart libraries; IChartLibrarySettings is not implemented.");
+		}
 	}
 
 	// Methods //

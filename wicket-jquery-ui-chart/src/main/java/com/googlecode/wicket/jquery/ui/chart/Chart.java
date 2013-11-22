@@ -24,7 +24,7 @@ import com.googlecode.wicket.jquery.core.JQueryContainer;
 import com.googlecode.wicket.jquery.core.Options;
 
 /**
- * Provides calendar widget, based on the jQuery fullcalendar plugin.
+ * TODO: javadoc
  *
  * @author Sebastien Briquet - sebfz1
  *
@@ -38,8 +38,12 @@ public class Chart extends JQueryContainer
 
 	private Gallery gallery; // may be null
 
+	// chart properties //
+	private boolean gridVisible = false;
+
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
 	 */
 	public Chart(String id)
@@ -49,39 +53,70 @@ public class Chart extends JQueryContainer
 
 	/**
 	 * Constructor
+	 *
+	 * @param id the markup id
+	 * @param gallery the {@link Gallery}
+	 */
+	public Chart(String id, Gallery gallery)
+	{
+		this(id, gallery, new Options());
+	}
+
+	/**
+	 * Constructor
+	 *
 	 * @param id the markup id
 	 * @param options {@link Options}
 	 */
 	public Chart(String id, Options options)
 	{
+		this(id, (Gallery) null, options);
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param id the markup id
+	 * @param gallery the {@link Gallery}
+	 * @param options {@link Options}
+	 */
+	public Chart(String id, Gallery gallery, Options options)
+	{
 		super(id);
 
+		this.gallery = gallery;
 		this.options = options;
 		this.series = new ArrayList<Series>();
 	}
 
-	//TODO add missing ChartType ctors
-
-
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
-	 * @param model
+	 * @param model the {@link ChartModel}
 	 */
 	public Chart(String id, ChartModel<?> model)
 	{
 		this(id, model, new Options());
 	}
 
-	public Chart(String id, ChartModel<?> model, Gallery type)
+	/**
+	 * Constructor
+	 *
+	 * @param id the markup id
+	 * @param model the {@link ChartModel}
+	 * @param gallery the {@link Gallery}
+	 */
+	public Chart(String id, ChartModel<?> model, Gallery gallery)
 	{
-		this(id, model, type, new Options());
+		this(id, model, gallery, new Options());
 	}
 
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
-	 * @param model
+	 * @param model the {@link ChartModel}
 	 * @param options {@link Options}
 	 */
 	public Chart(String id, ChartModel<?> model, Options options)
@@ -91,9 +126,10 @@ public class Chart extends JQueryContainer
 
 	/**
 	 * Constructor
+	 *
 	 * @param id the markup id
-	 * @param model
-	 * @param gallery
+	 * @param model the {@link ChartModel}
+	 * @param gallery the {@link Gallery}
 	 * @param options {@link Options}
 	 */
 	public Chart(String id, ChartModel<?> model, Gallery gallery, Options options)
@@ -129,19 +165,43 @@ public class Chart extends JQueryContainer
 	{
 		super.onConfigure(behavior);
 
-		//dataSource
-		if (this.gallery != null) {
+		// dataSource
+		if (this.gallery != null)
+		{
 			behavior.setOption("gallery", this.gallery);
 		}
 
 		behavior.setOption("dataValues", ChartModel.toJson(this.getModel()));
-		behavior.setOption("series", Series.toJson(this.series)); //should be *after* dataValues
-        behavior.setOption("dataGrid", "{ visible: true }");
+		behavior.setOption("series", Series.toJson(this.series)); // should be *after* dataValues
+		behavior.setOption("dataGrid", String.format("{ visible: %b }", this.gridVisible));
 
-//		behavior.setOption("data", String.format("{ series: %s }", this.series.size()));
-//		chart1.getDataSourceSettings().reloadData();
+		// behavior.setOption("data", String.format("{ series: %s }", this.series.size()));
+		// chart1.getDataSourceSettings().reloadData();
 	}
 
+	// Methods //
+	/**
+	 * Indicates whether the data-grid is visible
+	 *
+	 * @return true or false
+	 */
+	public boolean isGridVisible()
+	{
+		return this.gridVisible;
+	}
+
+	/**
+	 * Sets whether the data-grid should be visible
+	 *
+	 * @param visible true or false
+	 * @return this, for chaining
+	 */
+	public Chart setGridVisible(boolean visible)
+	{
+		this.gridVisible = visible;
+
+		return this;
+	}
 
 	// IJQueryWidget //
 	/**
@@ -157,7 +217,6 @@ public class Chart extends JQueryContainer
 	{
 		this.series.add(series);
 	}
-
 
 	// Factory methods //
 }

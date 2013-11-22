@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
 
-//TODO to remove
+//TODO to remove?
 @Deprecated
 public class ChartDataProvider implements IDataProvider<List<String>>
 {
