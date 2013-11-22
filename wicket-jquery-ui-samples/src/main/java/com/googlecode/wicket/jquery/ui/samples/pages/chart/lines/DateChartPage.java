@@ -1,4 +1,4 @@
-package com.googlecode.wicket.jquery.ui.samples.pages.chart;
+package com.googlecode.wicket.jquery.ui.samples.pages.chart.lines;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import com.googlecode.wicket.jquery.ui.chart.Chart;
 import com.googlecode.wicket.jquery.ui.chart.ChartModel;
 import com.googlecode.wicket.jquery.ui.chart.Gallery;
 import com.googlecode.wicket.jquery.ui.chart.Series;
-import com.googlecode.wicket.jquery.ui.chart.data.SimpleSeriesData;
+import com.googlecode.wicket.jquery.ui.chart.data.CategoryData;
 
 public class DateChartPage extends AbstractChartPage
 {
@@ -44,8 +44,8 @@ public class DateChartPage extends AbstractChartPage
 		// Chart //
 		Chart chart = new Chart("chart", newChartModel(), Gallery.Lines);
 		chart.setGridVisible(true);
-		chart.add(new Series("Sample Series #1"));
-		chart.add(new Series("Sample Series #2"));
+		chart.add(new Series("My Series #1"));
+		chart.add(new Series("My Series #2"));
 
 		// chart.setCategoryAxisName("Months");
 		this.add(chart);
@@ -53,31 +53,31 @@ public class DateChartPage extends AbstractChartPage
 
 	private static ChartModel<?> newChartModel()
 	{
-		return new ChartModel<SimpleSeriesData>() {
+		return new ChartModel<CategoryData>() {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected List<SimpleSeriesData> load()
+			protected List<CategoryData> load()
 			{
-				List<SimpleSeriesData> list = new ArrayList<SimpleSeriesData>();
+				List<CategoryData> list = new ArrayList<CategoryData>();
 
 				Date[] dates = newDates(12);
 
 				if (dates != null)
 				{
-					list.add(new SimpleSeriesData(dates[0], 180, 75));
-					list.add(new SimpleSeriesData(dates[1], 176, 55));
-					list.add(new SimpleSeriesData(dates[2], 174, 84));
-					list.add(new SimpleSeriesData(dates[3], 175, 72));
-					list.add(new SimpleSeriesData(dates[4], 181, 54));
-					list.add(new SimpleSeriesData(dates[5], 192, 68));
-					list.add(new SimpleSeriesData(dates[6], 180, 75));
-					list.add(new SimpleSeriesData(dates[7], 176, 55));
-					list.add(new SimpleSeriesData(dates[8], 174, 84));
-					list.add(new SimpleSeriesData(dates[9], 175, 72));
-					list.add(new SimpleSeriesData(dates[10], 181, 54));
-					list.add(new SimpleSeriesData(dates[11], 192, 68));
+					list.add(new CategoryData(dates[0], 180, 75));
+					list.add(new CategoryData(dates[1], 176, 55));
+					list.add(new CategoryData(dates[2], 174, 84));
+					list.add(new CategoryData(dates[3], 175, 72));
+					list.add(new CategoryData(dates[4], 181, 54));
+					list.add(new CategoryData(dates[5], 192, 68));
+					list.add(new CategoryData(dates[6], 180, 75));
+					list.add(new CategoryData(dates[7], 176, 55));
+					list.add(new CategoryData(dates[8], 174, 84));
+					list.add(new CategoryData(dates[9], 175, 72));
+					list.add(new CategoryData(dates[10], 181, 54));
+					list.add(new CategoryData(dates[11], 192, 68));
 				}
 
 				return list;

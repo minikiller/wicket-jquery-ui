@@ -1,4 +1,4 @@
-package com.googlecode.wicket.jquery.ui.samples.pages.chart;
+package com.googlecode.wicket.jquery.ui.samples.pages.chart.lines;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,9 +20,9 @@ abstract class AbstractChartPage extends SamplePage
 	protected List<DemoLink> getDemoLinks()
 	{
 		return Arrays.asList(
-				new DemoLink(DefaultChartPage.class, "Chart: sample 1"),
-				new DemoLink(GalleryChartPage.class, "Chart: multiple chart types (galleries)"),
-				new DemoLink(DateChartPage.class, "Chart: using date")
+				new DemoLink(DefaultChartPage.class, "Chart: Lines"),
+				new DemoLink(GalleryChartPage.class, "Chart: Lines & Bars"),
+				new DemoLink(DateChartPage.class, "Chart: Lines with dates")
 			);
 	}
 }

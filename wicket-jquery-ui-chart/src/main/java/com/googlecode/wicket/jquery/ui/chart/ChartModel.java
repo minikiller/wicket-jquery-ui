@@ -32,11 +32,11 @@ public abstract class ChartModel<T extends IChartData> extends LoadableDetachabl
 {
 	private static final long serialVersionUID = 1L;
 
-	public static <T extends IChartData> String toJson(ChartModel<T> model)
+	static <T extends IChartData> String toJson(ChartModel<T> model)
 	{
 		StringBuilder builder = new StringBuilder("[ ");
 
-		List<T> list = model.getObject(); // calls #load
+		List<T> list = model.getObject(); // calls #load()
 
 		for (int i = 0; i < list.size(); i++)
 		{
@@ -53,11 +53,10 @@ public abstract class ChartModel<T extends IChartData> extends LoadableDetachabl
 		return builder.toString();
 	}
 
-	public static <T extends IChartData> void toJson(StringBuilder builder, T bean)
+	static <T extends IChartData> void toJson(StringBuilder builder, T bean)
 	{
 		bean.toJson(builder);
 	}
-
 
 	/**
 	 * Constructor

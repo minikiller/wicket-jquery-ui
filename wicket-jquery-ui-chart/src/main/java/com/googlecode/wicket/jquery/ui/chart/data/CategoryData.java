@@ -23,12 +23,12 @@ import java.util.Date;
 import com.googlecode.wicket.jquery.core.Options;
 
 /**
- * Provides a single-category series chart-object
+ * Provides a category/points data<br/>
+ * Values should be inserted in the same order of declared series.
  *
  * @author Sebastien Briquet - sebfz1
- *
  */
-public class SimpleSeriesData implements IChartData
+public class CategoryData implements IChartData
 {
 	private static final DateFormat ISO8601_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
@@ -37,17 +37,21 @@ public class SimpleSeriesData implements IChartData
 
 	/**
 	 * @param category could be a ISO 8601 date string (yyyy-MM-ddTHH:mm:ss.fffZ)
-	 * @param values
+	 * @param values the series values
 	 */
-	public SimpleSeriesData(String category, Number... values)
+	public CategoryData(String category, Number... values)
 	{
 		this.category = category;
 		this.values = values;
 	}
 
-	public SimpleSeriesData(Date date, Number... values)
+	/**
+	 * @param category the {@link Date}
+	 * @param values the series values
+	 */
+	public CategoryData(Date category, Number... values)
 	{
-		this.category = ISO8601_FORMAT.format(date);
+		this.category = ISO8601_FORMAT.format(category);
 		this.values = values;
 	}
 

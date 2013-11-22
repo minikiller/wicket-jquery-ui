@@ -23,9 +23,28 @@ package com.googlecode.wicket.jquery.ui.chart;
  */
 public enum Gallery
 {
+	None("cfx.Gallery.None"),
+	Lines("cfx.Gallery.Lines"),
 	Bar("cfx.Gallery.Bar"),
+	Area("cfx.Gallery.Area"),
+	Scatter("cfx.Gallery.Scatter"),
 	Pie("cfx.Gallery.Pie"),
-	Lines("cfx.Gallery.Lines");
+	Curve("cfx.Gallery.Curve"),
+	Pareto("cfx.Gallery.Pareto"),
+	Step("cfx.Gallery.Step"),
+	HighLowClose("cfx.Gallery.HighLowClose"),
+	Surface("cfx.Gallery.Surface"),
+	Radar("cfx.Gallery.Radar"),
+	Polar("cfx.Gallery.Polar"),
+	Cube("cfx.Gallery.Cube"),
+	Doughnut("cfx.Gallery.Doughnut"),
+	Pyramid("cfx.Gallery.Pyramid"),
+	Bubble("cfx.Gallery.Bubble"),
+	OpenHighLowClose("cfx.Gallery.OpenHighLowClose"),
+	Candlestick("cfx.Gallery.Candlestick"),
+	Contour("cfx.Gallery.Contour"),
+	CurveArea("cfx.Gallery.CurveArea"),
+	Gantt("cfx.Gallery.Gantt");
 
 	private String gallery;
 

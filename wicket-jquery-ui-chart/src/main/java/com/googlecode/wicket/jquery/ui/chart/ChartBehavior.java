@@ -110,7 +110,6 @@ public class ChartBehavior extends JQueryBehavior implements IJQueryAjaxAware
 	public void bind(Component component)
 	{
 		super.bind(component);
-
 	}
 
 	@Override

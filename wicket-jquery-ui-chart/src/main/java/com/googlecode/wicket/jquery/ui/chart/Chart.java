@@ -33,10 +33,9 @@ public class Chart extends JQueryContainer
 {
 	private static final long serialVersionUID = 1L;
 
+	private final Gallery gallery;
 	private final Options options;
 	private final List<Series> series;
-
-	private Gallery gallery; // may be null
 
 	// chart properties //
 	private boolean gridVisible = false;
@@ -48,7 +47,7 @@ public class Chart extends JQueryContainer
 	 */
 	public Chart(String id)
 	{
-		this(id, new Options());
+		this(id, Gallery.None, new Options());
 	}
 
 	/**
@@ -70,7 +69,7 @@ public class Chart extends JQueryContainer
 	 */
 	public Chart(String id, Options options)
 	{
-		this(id, (Gallery) null, options);
+		this(id, Gallery.None, options);
 	}
 
 	/**
@@ -97,7 +96,7 @@ public class Chart extends JQueryContainer
 	 */
 	public Chart(String id, ChartModel<?> model)
 	{
-		this(id, model, new Options());
+		this(id, model, Gallery.None, new Options());
 	}
 
 	/**
@@ -121,7 +120,7 @@ public class Chart extends JQueryContainer
 	 */
 	public Chart(String id, ChartModel<?> model, Options options)
 	{
-		this(id, model, null, options);
+		this(id, model, Gallery.None, options);
 	}
 
 	/**
@@ -165,14 +164,12 @@ public class Chart extends JQueryContainer
 	{
 		super.onConfigure(behavior);
 
-		// dataSource
-		if (this.gallery != null)
-		{
-			behavior.setOption("gallery", this.gallery);
-		}
+		// Gallery (general)
+		behavior.setOption("gallery", this.gallery);
 
+		// dataSource
 		behavior.setOption("dataValues", ChartModel.toJson(this.getModel()));
-		behavior.setOption("series", Series.toJson(this.series)); // should be *after* dataValues
+		behavior.setOption("series", Series.toJson(this.series)); // should be set *after* dataValues
 		behavior.setOption("dataGrid", String.format("{ visible: %b }", this.gridVisible));
 
 		// behavior.setOption("data", String.format("{ series: %s }", this.series.size()));

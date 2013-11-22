@@ -27,6 +27,12 @@ import com.googlecode.wicket.jquery.core.Options;
  */
 public class Series
 {
+	/**
+	 * Formats a List of {@link Series} to JSON
+	 *
+	 * @param list the list of {@link Series}
+	 * @return the JSON String
+	 */
 	public static String toJson(List<Series> list)
 	{
 		StringBuilder builder = new StringBuilder("[ ");
@@ -46,6 +52,12 @@ public class Series
 		return builder.toString();
 	}
 
+	/**
+	 * Formats a {@link Series} to JSON
+	 *
+	 * @param builder the current {@link StringBuilder}
+	 * @param series the series to format
+	 */
 	public static void toJson(StringBuilder builder, Series series)
 	{
 		series.toJson(builder);
@@ -56,15 +68,16 @@ public class Series
 
 	public Series(String name)
 	{
-		this(null, name);
+		this(name, Gallery.None);
 	}
 
 	/**
 	 * Constructor
+	 *
 	 * @param gallery
 	 * @param name
 	 */
-	public Series(Gallery gallery, String name)
+	public Series(String name, Gallery gallery)
 	{
 		this.name = name;
 		this.gallery = gallery;
@@ -84,7 +97,7 @@ public class Series
 	{
 		builder.append("{ ");
 
-		if (this.getGallery() != null)
+		if (this.getGallery() != Gallery.None)
 		{
 			builder.append(Options.QUOTE).append("gallery").append(Options.QUOTE).append(": ");
 			builder.append(this.getGallery());

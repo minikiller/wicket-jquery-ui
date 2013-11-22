@@ -11,7 +11,7 @@ import com.googlecode.wicket.jquery.ui.samples.pages.accordion.DefaultAccordionP
 import com.googlecode.wicket.jquery.ui.samples.pages.autocomplete.DefaultAutoCompletePage;
 import com.googlecode.wicket.jquery.ui.samples.pages.button.DefaultButtonPage;
 import com.googlecode.wicket.jquery.ui.samples.pages.calendar.DefaultCalendarPage;
-import com.googlecode.wicket.jquery.ui.samples.pages.chart.DefaultChartPage;
+import com.googlecode.wicket.jquery.ui.samples.pages.chart.lines.DefaultChartPage;
 import com.googlecode.wicket.jquery.ui.samples.pages.datepicker.DefaultDatePickerPage;
 import com.googlecode.wicket.jquery.ui.samples.pages.dialog.MessageDialogPage;
 import com.googlecode.wicket.jquery.ui.samples.pages.draggable.DefaultDraggablePage;
