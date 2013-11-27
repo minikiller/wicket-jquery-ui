@@ -18,6 +18,8 @@ package com.googlecode.wicket.jquery.ui.chart;
 
 import java.util.List;
 
+import org.apache.wicket.util.io.IClusterable;
+
 import com.googlecode.wicket.jquery.core.Options;
 
 /**
@@ -25,8 +27,10 @@ import com.googlecode.wicket.jquery.core.Options;
  * @author Sebastien Briquet - sebfz1
  *
  */
-public class Series
+public class Series implements IClusterable
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Formats a List of {@link Series} to JSON
 	 *

@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.googlecode.wicket.jquery.core.JQueryBehavior;
-import com.googlecode.wicket.jquery.core.JQueryContainer;
 import com.googlecode.wicket.jquery.core.Options;
 
 /**
@@ -29,16 +28,11 @@ import com.googlecode.wicket.jquery.core.Options;
  * @author Sebastien Briquet - sebfz1
  *
  */
-public class Chart extends JQueryContainer
+public class Chart extends AbstractChart
 {
 	private static final long serialVersionUID = 1L;
 
-	private final Gallery gallery;
-	private final Options options;
-	private final List<Series> series;
-
-	// chart properties //
-	private boolean gridVisible = false;
+	private final List<Series> series = new ArrayList<Series>();
 
 	/**
 	 * Constructor
@@ -47,7 +41,7 @@ public class Chart extends JQueryContainer
 	 */
 	public Chart(String id)
 	{
-		this(id, Gallery.None, new Options());
+		super(id);
 	}
 
 	/**
@@ -58,7 +52,7 @@ public class Chart extends JQueryContainer
 	 */
 	public Chart(String id, Gallery gallery)
 	{
-		this(id, gallery, new Options());
+		super(id, gallery);
 	}
 
 	/**
@@ -69,7 +63,7 @@ public class Chart extends JQueryContainer
 	 */
 	public Chart(String id, Options options)
 	{
-		this(id, Gallery.None, options);
+		super(id, options);
 	}
 
 	/**
@@ -81,11 +75,7 @@ public class Chart extends JQueryContainer
 	 */
 	public Chart(String id, Gallery gallery, Options options)
 	{
-		super(id);
-
-		this.gallery = gallery;
-		this.options = options;
-		this.series = new ArrayList<Series>();
+		super(id, gallery, options);
 	}
 
 	/**
@@ -133,11 +123,9 @@ public class Chart extends JQueryContainer
 	 */
 	public Chart(String id, ChartModel<?> model, Gallery gallery, Options options)
 	{
-		super(id, model);
+		super(id, gallery, options);
 
-		this.gallery = gallery;
-		this.options = options;
-		this.series = new ArrayList<Series>();
+		this.setModel(model);
 	}
 
 	// Properties //
@@ -145,6 +133,11 @@ public class Chart extends JQueryContainer
 	public ChartModel<?> getModel()
 	{
 		return (ChartModel<?>) this.getDefaultModel();
+	}
+
+	public void setModel(ChartModel<?> model)
+	{
+		this.setDefaultModel(model);
 	}
 
 	public List<?> getModelObject()
@@ -164,56 +157,17 @@ public class Chart extends JQueryContainer
 	{
 		super.onConfigure(behavior);
 
-		// Gallery (general)
-		behavior.setOption("gallery", this.gallery);
-
 		// dataSource
 		behavior.setOption("dataValues", ChartModel.toJson(this.getModel()));
 		behavior.setOption("series", Series.toJson(this.series)); // should be set *after* dataValues
-		behavior.setOption("dataGrid", String.format("{ visible: %b }", this.gridVisible));
 
 		// behavior.setOption("data", String.format("{ series: %s }", this.series.size()));
 		// chart1.getDataSourceSettings().reloadData();
 	}
 
 	// Methods //
-	/**
-	 * Indicates whether the data-grid is visible
-	 *
-	 * @return true or false
-	 */
-	public boolean isGridVisible()
-	{
-		return this.gridVisible;
-	}
-
-	/**
-	 * Sets whether the data-grid should be visible
-	 *
-	 * @param visible true or false
-	 * @return this, for chaining
-	 */
-	public Chart setGridVisible(boolean visible)
-	{
-		this.gridVisible = visible;
-
-		return this;
-	}
-
-	// IJQueryWidget //
-	/**
-	 * see {@link JQueryContainer#newWidgetBehavior(String)}
-	 */
-	@Override
-	public JQueryBehavior newWidgetBehavior(String selector)
-	{
-		return new ChartBehavior(selector, this.options);
-	}
-
 	public void add(Series series)
 	{
 		this.series.add(series);
 	}
-
-	// Factory methods //
 }

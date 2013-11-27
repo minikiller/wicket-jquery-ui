@@ -20,8 +20,7 @@ import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.settings.IJavaScriptLibrarySettings;
 
 /**
- * TODO: javadoc
- * Provides library settings for fullcalendar resource references<br/>
+ * Provides library settings for jChartFX resource references<br/>
  * <br/>
  * Usage:
  * <pre><code>
@@ -35,12 +34,12 @@ import org.apache.wicket.settings.IJavaScriptLibrarySettings;
  * 		this.setJavaScriptLibrarySettings(new MyJQueryLibrarySettings());
  * 	}
  *
- * 	static class MyJQueryLibrarySettings extends JQueryLibrarySettings implements ICalendarLibrarySettings
+ * 	static class MyJQueryLibrarySettings extends JQueryLibrarySettings implements IChartLibrarySettings
  * 	{
  * 		private static ResourceReference STYLESHEET_RR = new CssResourceReference(...);
  * 		private static ResourceReference JAVASCRIPT_RR = new JavaScriptResourceReference(...);
  *
- * 		public ResourceReference getCalendarStyleSheetReference()
+ * 		public ResourceReference getChartJavaScriptReference()
  * 		{
  * 			return STYLESHEET_RR;
  * 		}
@@ -59,11 +58,16 @@ import org.apache.wicket.settings.IJavaScriptLibrarySettings;
 public interface IChartLibrarySettings extends IJavaScriptLibrarySettings
 {
 	/**
-	 * Gets the fullcalendar's stylesheet resource reference
+	 * Gets the jChartFX's stylesheet resource reference
 	 *
 	 * @return the {@link ResourceReference}
 	 */
 	ResourceReference getChartStyleSheetReference();
 
+	/**
+	 * Gets the jChartFX's javascript resource reference
+	 *
+	 * @return the {@link ResourceReference}
+	 */
 	ResourceReference getChartJavaScriptReference();
 }
