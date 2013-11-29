@@ -38,8 +38,7 @@ import com.googlecode.wicket.jquery.ui.chart.settings.IChartLibrarySettings;
 public class ChartBehavior extends JQueryBehavior implements IJQueryAjaxAware
 {
 	private static final long serialVersionUID = 1L;
-
-	public static final String METHOD = "chart";
+	private static final String METHOD = "chart";
 
 	/**
 	 * Gets the {@link IChartLibrarySettings}
