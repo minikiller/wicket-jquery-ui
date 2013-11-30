@@ -33,7 +33,6 @@ import com.googlecode.wicket.jquery.ui.kendo.KendoAbstractBehavior;
  * @author Sebastien Briquet - sebfz1
  *
  */
-//TODO: add expand(target, paneId) & collapse(target, paneId) methods
 public class SplitterBehavior extends KendoAbstractBehavior implements IJQueryAjaxAware, ISplitterListener
 {
 	private static final long serialVersionUID = 1L;
@@ -138,11 +137,13 @@ public class SplitterBehavior extends KendoAbstractBehavior implements IJQueryAj
 	@Override
 	public void onExpand(AjaxRequestTarget target, String paneId)
 	{
+		// noop
 	}
 
 	@Override
 	public void onCollapse(AjaxRequestTarget target, String paneId)
 	{
+		// noop
 	}
 
 

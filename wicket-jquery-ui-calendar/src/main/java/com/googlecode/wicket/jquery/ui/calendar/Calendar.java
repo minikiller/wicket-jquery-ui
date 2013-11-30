@@ -129,14 +129,6 @@ public class Calendar extends JQueryContainer implements ICalendarListener
 
 	// Properties //
 	@Override
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public boolean isEditable()
-	{
-		return false;
-	}
-
-	@Override
 	public boolean isSelectable()
 	{
 		return false;
@@ -145,15 +137,13 @@ public class Calendar extends JQueryContainer implements ICalendarListener
 	@Override
 	public boolean isDayClickEnabled()
 	{
-		return this.isEditable();
-		// return false; // XXX: enable in wicket-6.12.0-next
+		return false;
 	}
 
 	@Override
 	public boolean isEventClickEnabled()
 	{
-		return this.isEditable();
-		// return false; // XXX: enable in wicket-6.12.0-next
+		return false;
 	}
 
 	@Override
@@ -213,36 +203,43 @@ public class Calendar extends JQueryContainer implements ICalendarListener
 	@Override
 	public void onSelect(AjaxRequestTarget target, CalendarView view, Date start, Date end, boolean allDay)
 	{
+		// noop
 	}
 
 	@Override
 	public void onDayClick(AjaxRequestTarget target, CalendarView view, Date date, boolean allDay)
 	{
+		// noop
 	}
 
 	@Override
 	public void onEventClick(AjaxRequestTarget target, CalendarView view, int eventId)
 	{
+		// noop
 	}
 
 	@Override
 	public void onEventDrop(AjaxRequestTarget target, int eventId, long delta, boolean allDay)
 	{
+		// noop
 	}
 
 	@Override
 	public void onEventResize(AjaxRequestTarget target, int eventId, long delta)
 	{
+		// noop
 	}
 
 	@Override
 	public void onObjectDrop(AjaxRequestTarget target, String title, Date date, boolean allDay)
 	{
+		// noop
 	}
 
 	@Override
 	public void onViewRender(AjaxRequestTarget target, CalendarView view)
 	{
+		// noop
 	}
 
 	// IJQueryWidget //
@@ -255,14 +252,6 @@ public class Calendar extends JQueryContainer implements ICalendarListener
 		return new CalendarBehavior(selector, this.options) {
 
 			private static final long serialVersionUID = 1L;
-
-			@Override
-			@Deprecated
-			@SuppressWarnings("deprecation")
-			public boolean isEditable()
-			{
-				return Calendar.this.isEditable();
-			}
 
 			@Override
 			public boolean isSelectable()

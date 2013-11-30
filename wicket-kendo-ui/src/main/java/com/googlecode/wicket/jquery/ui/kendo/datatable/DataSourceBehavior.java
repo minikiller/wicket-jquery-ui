@@ -50,11 +50,11 @@ class DataSourceBehavior<T> extends AbstractDefaultAjaxBehavior
 
 	/**
 	 * Constructor
+	 *
 	 * @param columns the list of {@link IColumn}
 	 * @param provider the {@link IDataProvider}
-	 * @param rows the number of rows per page to be displayed
 	 */
-	public DataSourceBehavior(final List<? extends IColumn> columns, final IDataProvider<T> provider, final long rows)
+	public DataSourceBehavior(final List<? extends IColumn> columns, final IDataProvider<T> provider)
 	{
 		this.columns = columns;
 		this.provider = provider;
@@ -104,7 +104,10 @@ class DataSourceBehavior<T> extends AbstractDefaultAjaxBehavior
 
 				for (int index = 0; iterator.hasNext(); index++)
 				{
-					if (index > 0) { builder.append(", "); }
+					if (index > 0)
+					{
+						builder.append(", ");
+					}
 
 					builder.append(DataSourceBehavior.this.newJsonRow(iterator.next()));
 				}
@@ -117,12 +120,14 @@ class DataSourceBehavior<T> extends AbstractDefaultAjaxBehavior
 			@Override
 			public void detach(final IRequestCycle requestCycle)
 			{
+				// noop
 			}
 		};
 	}
 
 	/**
 	 * Gets a new JSON object from the bean
+	 *
 	 * @param bean T object
 	 * @return a new JSON object
 	 */
