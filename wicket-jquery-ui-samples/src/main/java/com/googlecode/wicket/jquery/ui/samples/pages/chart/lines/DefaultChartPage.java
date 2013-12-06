@@ -3,7 +3,7 @@ package com.googlecode.wicket.jquery.ui.samples.pages.chart.lines;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.googlecode.wicket.jquery.ui.chart.Chart;
+import com.googlecode.wicket.jquery.ui.chart.SimpleChart;
 import com.googlecode.wicket.jquery.ui.chart.ChartModel;
 import com.googlecode.wicket.jquery.ui.chart.Gallery;
 import com.googlecode.wicket.jquery.ui.chart.Series;
@@ -16,7 +16,7 @@ public class DefaultChartPage extends AbstractChartPage
 	public DefaultChartPage()
 	{
 		// Chart //
-		Chart chart = new Chart("chart", newChartModel(), Gallery.Lines);
+		SimpleChart chart = new SimpleChart("chart", newChartModel(), Gallery.Lines);
 		chart.add(new Series("My Series #1"));
 		chart.add(new Series("My Series #2"));
 

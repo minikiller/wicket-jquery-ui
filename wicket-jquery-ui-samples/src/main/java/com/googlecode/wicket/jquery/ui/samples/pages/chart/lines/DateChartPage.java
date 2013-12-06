@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.googlecode.wicket.jquery.ui.chart.Chart;
+import com.googlecode.wicket.jquery.ui.chart.SimpleChart;
 import com.googlecode.wicket.jquery.ui.chart.ChartModel;
 import com.googlecode.wicket.jquery.ui.chart.Gallery;
 import com.googlecode.wicket.jquery.ui.chart.Series;
@@ -42,7 +42,7 @@ public class DateChartPage extends AbstractChartPage
 	public DateChartPage()
 	{
 		// Chart //
-		Chart chart = new Chart("chart", newChartModel(), Gallery.Lines);
+		SimpleChart chart = new SimpleChart("chart", newChartModel(), Gallery.Lines);
 		chart.setGridVisible(true);
 		chart.add(new Series("My Series #1"));
 		chart.add(new Series("My Series #2"));

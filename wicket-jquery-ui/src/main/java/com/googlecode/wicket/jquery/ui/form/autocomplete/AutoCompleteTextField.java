@@ -231,6 +231,7 @@ public abstract class AutoCompleteTextField<T extends Serializable> extends Text
 	@Override
 	public void onBeforeRender(JQueryBehavior behavior)
 	{
+		// noop
 	}
 
 	@Override

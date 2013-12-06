@@ -143,6 +143,6 @@ public class ChartBehavior extends JQueryBehavior implements IJQueryAjaxAware
 	@Override
 	public void onAjax(AjaxRequestTarget target, JQueryEvent event)
 	{
-
+		// noop
 	}
 }
