@@ -65,7 +65,7 @@ public class TestDemoChartDAO
 
 		try
 		{
-			query(dao.getConnection(), "SELECT c.name, d.seriesId, d.value FROM categories c INNER JOIN data d ON c.id = d.categoryId");
+			query(dao.getConnection(), "SELECT c.name, d.seriesId, d.value FROM Categories c INNER JOIN Data d ON c.id = d.categoryId");
 		}
 		finally
 		{

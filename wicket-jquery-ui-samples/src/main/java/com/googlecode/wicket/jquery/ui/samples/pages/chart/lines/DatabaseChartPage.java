@@ -35,7 +35,7 @@ public class DatabaseChartPage extends AbstractChartPage
 		return new SqlChartModel() {
 
 			private static final long serialVersionUID = 1L;
-			private static final String QUERY = "SELECT c.name, d.value, d.seriesId FROM categories c INNER JOIN data d ON c.id = d.categoryId";
+			private static final String QUERY = "SELECT c.name, d.value, d.seriesId FROM Categories c INNER JOIN Data d ON c.id = d.categoryId";
 
 			@Override
 			protected List<ChartData> query() throws SQLException

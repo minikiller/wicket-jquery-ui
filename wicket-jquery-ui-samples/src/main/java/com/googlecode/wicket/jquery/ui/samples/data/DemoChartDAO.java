@@ -14,13 +14,18 @@ public class DemoChartDAO
 	private static final String db_file = "chart.db";
 
 	private static DemoChartDAO instance = null;
+	private static boolean initialized = false;
 
 	public static synchronized DemoChartDAO get()
 	{
 		if (instance == null)
 		{
 			instance = new DemoChartDAO();
-			instance.init();
+		}
+
+		if (!initialized)
+		{
+			initialized = instance.init();
 		}
 
 		return instance;
@@ -47,7 +52,7 @@ public class DemoChartDAO
 		this.open(db_file);
 	}
 
-	public final void open(String file)
+	final void open(String file)
 	{
 		try
 		{
@@ -64,61 +69,74 @@ public class DemoChartDAO
 		}
 	}
 
-	final void init()
+	final boolean init()
 	{
-		// creates table //
+		// drops existing tables //
 		try
 		{
-			this.update("CREATE TABLE categories (id INTEGER, name VARCHAR(3))");
-			this.update("CREATE TABLE data (id INTEGER IDENTITY, seriesId INTEGER, categoryId INTEGER, value INTEGER)");
+			this.update("DROP TABLE Data IF EXISTS");
+			this.update("DROP TABLE Categories IF EXISTS");
 		}
 		catch (SQLException e)
 		{
-			LOG.error(e.getMessage());
+			LOG.error(e.getMessage(), e);
+		}
+
+		// creates table //
+		try
+		{
+			this.update("CREATE TABLE Categories (id INTEGER, name VARCHAR(3))");
+			this.update("CREATE TABLE Data (id INTEGER IDENTITY, seriesId INTEGER, categoryId INTEGER, value INTEGER)");
+		}
+		catch (SQLException e)
+		{
+			LOG.error(e.getMessage(), e);
 		}
 
 		// inserts data //
 		try
 		{
-			this.update("INSERT INTO categories(id, name) VALUES(1, 'Jan')");
-			this.update("INSERT INTO categories(id, name) VALUES(2, 'Feb')");
-			this.update("INSERT INTO categories(id, name) VALUES(3, 'Mar')");
-			this.update("INSERT INTO categories(id, name) VALUES(4, 'Apr')");
-			this.update("INSERT INTO categories(id, name) VALUES(5, 'May')");
-			this.update("INSERT INTO categories(id, name) VALUES(6, 'Jun')");
-			this.update("INSERT INTO categories(id, name) VALUES(7, 'Jul')");
-			this.update("INSERT INTO categories(id, name) VALUES(8, 'Aug')");
-			this.update("INSERT INTO categories(id, name) VALUES(9, 'Sep')");
-			this.update("INSERT INTO categories(id, name) VALUES(10, 'Oct')");
-			this.update("INSERT INTO categories(id, name) VALUES(11, 'Nov')");
-			this.update("INSERT INTO categories(id, name) VALUES(12, 'Dec')");
+			this.update("INSERT INTO Categories(id, name) VALUES(1, 'Jan')");
+			this.update("INSERT INTO Categories(id, name) VALUES(2, 'Feb')");
+			this.update("INSERT INTO Categories(id, name) VALUES(3, 'Mar')");
+			this.update("INSERT INTO Categories(id, name) VALUES(4, 'Apr')");
+			this.update("INSERT INTO Categories(id, name) VALUES(5, 'May')");
+			this.update("INSERT INTO Categories(id, name) VALUES(6, 'Jun')");
+			this.update("INSERT INTO Categories(id, name) VALUES(7, 'Jul')");
+			this.update("INSERT INTO Categories(id, name) VALUES(8, 'Aug')");
+			this.update("INSERT INTO Categories(id, name) VALUES(9, 'Sep')");
+			this.update("INSERT INTO Categories(id, name) VALUES(10, 'Oct')");
+			this.update("INSERT INTO Categories(id, name) VALUES(11, 'Nov')");
+			this.update("INSERT INTO Categories(id, name) VALUES(12, 'Dec')");
 
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 1, 45)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 2, 54)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 3, 96)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 4, 52)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 5, 15)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 6, 66)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 7, 44)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 8, 85)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 9, 35)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 10, 95)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(1, 1, 45)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(1, 2, 54)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(1, 3, 96)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(1, 4, 52)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(1, 5, 15)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(1, 6, 66)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(1, 7, 44)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(1, 8, 85)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(1, 9, 35)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(1, 10, 95)");
 
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 1, 15)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 2, 65)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 3, 25)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 4, 78)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 5, 12)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 6, 89)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 7, 26)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 8, 75)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 9, 65)");
-			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 10, 35)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(2, 1, 15)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(2, 2, 65)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(2, 3, 25)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(2, 4, 78)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(2, 5, 12)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(2, 6, 89)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(2, 7, 26)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(2, 8, 75)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(2, 9, 65)");
+			this.update("INSERT INTO Data(seriesId, categoryId, value) VALUES(2, 10, 35)");
 		}
 		catch (SQLException e)
 		{
-			LOG.error(e.getMessage());
+			LOG.error(e.getMessage(), e);
 		}
+
+		return true;
 	}
 
 	void close()
@@ -127,20 +145,13 @@ public class DemoChartDAO
 		{
 			try
 			{
-				this.update("DROP TABLE data");
-				this.update("DROP TABLE categories");
-			}
-			catch (SQLException e)
-			{
-				LOG.error(e.getMessage(), e);
-			}
+				if (!this.connection.isClosed())
+				{
+					Statement statement = this.connection.createStatement();
+					statement.execute("SHUTDOWN");
 
-			try
-			{
-				Statement statement = this.connection.createStatement();
-				statement.execute("SHUTDOWN");
-
-				this.connection.close();
+					this.connection.close();
+				}
 			}
 			catch (SQLException e)
 			{
