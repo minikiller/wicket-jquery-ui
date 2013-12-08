@@ -14,54 +14,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.chart;
+package com.googlecode.wicket.jquery.ui.chart.data;
 
+import java.util.Collection;
 import java.util.List;
 
-import org.apache.wicket.model.LoadableDetachableModel;
-
-import com.googlecode.wicket.jquery.ui.chart.data.IChartData;
+import org.apache.wicket.util.string.Strings;
 
 /**
+ * Provides a {@link ChartData} helper
  *
  * @author Sebastien Briquet - sebfz1
- * @param <T>
- *
  */
-public abstract class ChartModel<T extends IChartData> extends LoadableDetachableModel<List<T>>
+public class ChartDataHelper implements IChartData
 {
-	private static final long serialVersionUID = 1L;
-
-	static <T extends IChartData> String toJson(ChartModel<T> model)
+	/**
+	 * Adds a value to a {@link ChartData} identified by its category<br/>
+	 * If the category is not found within the {@link ChartData} list, a new {@link ChartData} is created and added.
+	 *
+	 * @param list the list of {@link ChartData}
+	 * @param category the category the value belongs to
+	 * @param value the value
+	 * @return <tt>true</tt> (as specified by {@link Collection#add})
+	 */
+	public static boolean add(List<ChartData> list, String category, Number value)
 	{
-		StringBuilder builder = new StringBuilder("[ ");
-
-		List<T> list = model.getObject(); // calls #load()
-
-		for (int i = 0; i < list.size(); i++)
+		for (ChartData data : list)
 		{
-			if (i > 0)
+			if (Strings.isEqual(category, data.getCategory()))
 			{
-				builder.append(", ");
+				return data.add(value);
 			}
-
-			ChartModel.toJson(builder, list.get(i));
 		}
 
-		builder.append(" ]");
-
-		return builder.toString();
-	}
-
-	static <T extends IChartData> void toJson(StringBuilder builder, T bean)
-	{
-		bean.toJson(builder);
+		return list.add(new ChartData(category, value));
 	}
 
 	/**
-	 * Constructor
+	 * Helper class
 	 */
-	public ChartModel()
+	private ChartDataHelper()
 	{
 	}
 }

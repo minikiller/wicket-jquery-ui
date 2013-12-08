@@ -16,60 +16,28 @@
  */
 package com.googlecode.wicket.jquery.ui.chart;
 
-import java.util.List;
-
 import org.apache.wicket.util.io.IClusterable;
 
 import com.googlecode.wicket.jquery.core.Options;
 
 /**
+ * Provides a series object<br/>
+ * A series has is identified by a name and can use its own gallery (overrides the defined {@link Chart} gallery)
  *
  * @author Sebastien Briquet - sebfz1
- *
  */
 public class Series implements IClusterable
 {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Formats a List of {@link Series} to JSON
-	 *
-	 * @param list the list of {@link Series}
-	 * @return the JSON String
-	 */
-	public static String toJson(List<Series> list)
-	{
-		StringBuilder builder = new StringBuilder("[ ");
-
-		for (int i = 0; i < list.size(); i++)
-		{
-			if (i > 0)
-			{
-				builder.append(", ");
-			}
-
-			Series.toJson(builder, list.get(i));
-		}
-
-		builder.append(" ]");
-
-		return builder.toString();
-	}
-
-	/**
-	 * Formats a {@link Series} to JSON
-	 *
-	 * @param builder the current {@link StringBuilder}
-	 * @param series the series to format
-	 */
-	public static void toJson(StringBuilder builder, Series series)
-	{
-		series.toJson(builder);
-	}
-
 	private String name;
 	private Gallery gallery;
 
+	/**
+	 * Constructor
+	 *
+	 * @param name the series name
+	 */
 	public Series(String name)
 	{
 		this(name, Gallery.None);
@@ -78,8 +46,8 @@ public class Series implements IClusterable
 	/**
 	 * Constructor
 	 *
-	 * @param gallery
-	 * @param name
+	 * @param name the series name
+	 * @param gallery the {@link Gallery} to use
 	 */
 	public Series(String name, Gallery gallery)
 	{
@@ -87,19 +55,33 @@ public class Series implements IClusterable
 		this.gallery = gallery;
 	}
 
-	public Gallery getGallery()
-	{
-		return this.gallery;
-	}
-
+	/**
+	 * Gets the series name
+	 *
+	 * @return the series name
+	 */
 	public String getName()
 	{
 		return this.name;
 	}
 
-	protected CharSequence toJson(StringBuilder builder)
+	/**
+	 * Gets the gallery
+	 *
+	 * @return the gallery
+	 */
+	public Gallery getGallery()
 	{
-		builder.append("{ ");
+		return this.gallery;
+	}
+
+	/**
+	 * Gets the JSON representation of this {@link Series}
+	 */
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder("{ ");
 
 		if (this.getGallery() != Gallery.None)
 		{
@@ -111,8 +93,6 @@ public class Series implements IClusterable
 		builder.append(Options.QUOTE).append("text").append(Options.QUOTE).append(": ");
 		builder.append(Options.QUOTE).append(this.getName()).append(Options.QUOTE);
 
-		builder.append(" }");
-
-		return builder;
+		return builder.append(" }").toString();
 	}
 }

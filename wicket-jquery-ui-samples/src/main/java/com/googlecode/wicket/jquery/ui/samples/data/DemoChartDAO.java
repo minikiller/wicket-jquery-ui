@@ -20,6 +20,7 @@ public class DemoChartDAO
 		if (instance == null)
 		{
 			instance = new DemoChartDAO();
+			instance.init();
 		}
 
 		return instance;
@@ -27,21 +28,10 @@ public class DemoChartDAO
 
 	public static synchronized void end()
 	{
-		Connection connection = get().connection;
-
-		if (connection != null)
+		if (instance != null)
 		{
-			try
-			{
-				Statement statement = get().connection.createStatement();
-				statement.execute("SHUTDOWN");
-
-				connection.close();
-			}
-			catch (SQLException e)
-			{
-				LOG.error(e.getMessage(), e);
-			}
+			instance.close();
+			instance = null;
 		}
 	}
 
@@ -54,10 +44,10 @@ public class DemoChartDAO
 
 	DemoChartDAO(String db_file)
 	{
-		this.openDB(db_file);
+		this.open(db_file);
 	}
 
-	private final void openDB(String file)
+	public final void open(String file)
 	{
 		try
 		{
@@ -72,57 +62,94 @@ public class DemoChartDAO
 		{
 			LOG.error(e.getMessage(), e);
 		}
-
-		if (this.connection != null)
-		{
-			this.initDB();
-		}
 	}
 
-	private final void initDB()
+	final void init()
 	{
 		// creates table //
 		try
 		{
-			this.update("CREATE TABLE chart_data (id INTEGER IDENTITY, seriesId INTEGER, value INTEGER)");
+			this.update("CREATE TABLE categories (id INTEGER, name VARCHAR(3))");
+			this.update("CREATE TABLE data (id INTEGER IDENTITY, seriesId INTEGER, categoryId INTEGER, value INTEGER)");
 		}
 		catch (SQLException e)
 		{
-			LOG.error(e.getMessage(), e);
+			LOG.error(e.getMessage());
 		}
 
 		// inserts data //
 		try
 		{
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(1, 45)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(1, 54)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(1, 96)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(1, 52)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(1, 15)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(1, 66)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(1, 44)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(1, 85)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(1, 35)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(1, 95)");
+			this.update("INSERT INTO categories(id, name) VALUES(1, 'Jan')");
+			this.update("INSERT INTO categories(id, name) VALUES(2, 'Feb')");
+			this.update("INSERT INTO categories(id, name) VALUES(3, 'Mar')");
+			this.update("INSERT INTO categories(id, name) VALUES(4, 'Apr')");
+			this.update("INSERT INTO categories(id, name) VALUES(5, 'May')");
+			this.update("INSERT INTO categories(id, name) VALUES(6, 'Jun')");
+			this.update("INSERT INTO categories(id, name) VALUES(7, 'Jul')");
+			this.update("INSERT INTO categories(id, name) VALUES(8, 'Aug')");
+			this.update("INSERT INTO categories(id, name) VALUES(9, 'Sep')");
+			this.update("INSERT INTO categories(id, name) VALUES(10, 'Oct')");
+			this.update("INSERT INTO categories(id, name) VALUES(11, 'Nov')");
+			this.update("INSERT INTO categories(id, name) VALUES(12, 'Dec')");
 
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(2, 15)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(2, 65)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(2, 25)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(2, 78)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(2, 12)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(2, 89)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(2, 26)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(2, 75)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(2, 65)");
-			this.update("INSERT INTO chart_data(seriesId, value) VALUES(2, 35)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 1, 45)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 2, 54)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 3, 96)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 4, 52)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 5, 15)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 6, 66)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 7, 44)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 8, 85)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 9, 35)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(1, 10, 95)");
+
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 1, 15)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 2, 65)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 3, 25)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 4, 78)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 5, 12)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 6, 89)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 7, 26)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 8, 75)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 9, 65)");
+			this.update("INSERT INTO data(seriesId, categoryId, value) VALUES(2, 10, 35)");
 		}
 		catch (SQLException e)
 		{
-			LOG.error(e.getMessage(), e);
+			LOG.error(e.getMessage());
 		}
 	}
 
-	public synchronized void update(String expression) throws SQLException
+	void close()
+	{
+		if (this.connection != null)
+		{
+			try
+			{
+				this.update("DROP TABLE data");
+				this.update("DROP TABLE categories");
+			}
+			catch (SQLException e)
+			{
+				LOG.error(e.getMessage(), e);
+			}
+
+			try
+			{
+				Statement statement = this.connection.createStatement();
+				statement.execute("SHUTDOWN");
+
+				this.connection.close();
+			}
+			catch (SQLException e)
+			{
+				LOG.error(e.getMessage(), e);
+			}
+		}
+	}
+
+	void update(String expression) throws SQLException
 	{
 		Statement statement = null;
 

@@ -17,9 +17,9 @@
 package com.googlecode.wicket.jquery.ui.chart.realtime;
 
 /**
- * TODO javadoc
- * @author Sebastien Briquet - sebfz1
+ * Gets an enumeration of realtime modes
  *
+ * @author Sebastien Briquet - sebfz1
  */
 public enum RealTimeMode
 {

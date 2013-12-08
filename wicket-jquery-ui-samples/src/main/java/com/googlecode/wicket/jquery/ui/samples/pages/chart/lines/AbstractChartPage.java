@@ -23,7 +23,8 @@ abstract class AbstractChartPage extends SamplePage
 				new DemoLink(DefaultChartPage.class, "Chart: Lines"),
 				new DemoLink(GalleryChartPage.class, "Chart: Lines & Bars"),
 				new DemoLink(DateChartPage.class, "Chart: Lines with dates"),
-				new DemoLink(RealTimeChartPage.class, "Chart: Real Time")
+				new DemoLink(RealTimeChartPage.class, "Chart: Real Time"),
+				new DemoLink(DatabaseChartPage.class, "Chart: Database")
 			);
 	}
 }

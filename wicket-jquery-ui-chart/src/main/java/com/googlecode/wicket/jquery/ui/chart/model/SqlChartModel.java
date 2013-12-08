@@ -14,23 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.chart.data;
+package com.googlecode.wicket.jquery.ui.chart.model;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import com.googlecode.wicket.jquery.ui.chart.ChartModel;
+import com.googlecode.wicket.jquery.ui.chart.data.ChartData;
 
 /**
  *
  * @author Sebastien Briquet - sebfz1
- * @param <T>
  *
  */
-public abstract class SqlChartModel<T extends IChartData> extends ChartModel<T> implements IChartDataset
+public abstract class SqlChartModel extends ChartModel
 {
 	private static final long serialVersionUID = 1L;
 
@@ -42,48 +39,25 @@ public abstract class SqlChartModel<T extends IChartData> extends ChartModel<T> 
 	}
 
 	@Override
-	protected List<T> load()
+	protected final List<ChartData> load()
 	{
-		List<CategoryData> list = new ArrayList<CategoryData>();
-
 		try
 		{
-			ResultSet rs = this.newResultSet();
-
-			ResultSetMetaData meta = rs.getMetaData();
-			int cols = meta.getColumnCount();
-
-			if (cols > 1)
-			{
-				while (rs.next())
-				{
-					String category = rs.getString(1);
-					Number[] values = new Number[cols - 1];
-
-					for (int i = 1; i < cols; i++)
-					{
-						values[i] = rs.getInt(i + 1);
-					}
-
-					list.add(new CategoryData(category, values));
-				}
-			}
+			return this.query();
 		}
-		catch (SQLException ex)
+		catch (SQLException e)
 		{
-			this.onSqlException(ex);
+			this.onSqlException(e);
 		}
 
-		return list;
+		return Collections.emptyList();
 	}
+
+	protected abstract List<ChartData> query() throws SQLException;
 
 	/**
-	 * @param ex
+	 * @param e
 	 */
-	protected void onSqlException(SQLException ex)
-	{
-		// noop
-	}
+	protected abstract void onSqlException(SQLException e);
 
-	protected abstract ResultSet newResultSet();
 }

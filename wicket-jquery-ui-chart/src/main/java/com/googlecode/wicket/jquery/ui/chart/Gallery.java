@@ -17,9 +17,9 @@
 package com.googlecode.wicket.jquery.ui.chart;
 
 /**
- * TODO javadoc
- * @author Sebastien Briquet - sebfz1
+ * Provides an enumeration of galleries (chart types)
  *
+ * @author Sebastien Briquet - sebfz1
  */
 public enum Gallery
 {

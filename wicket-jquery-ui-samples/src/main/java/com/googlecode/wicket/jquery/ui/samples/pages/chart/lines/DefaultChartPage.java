@@ -3,11 +3,11 @@ package com.googlecode.wicket.jquery.ui.samples.pages.chart.lines;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.googlecode.wicket.jquery.ui.chart.SimpleChart;
-import com.googlecode.wicket.jquery.ui.chart.ChartModel;
+import com.googlecode.wicket.jquery.ui.chart.Chart;
 import com.googlecode.wicket.jquery.ui.chart.Gallery;
 import com.googlecode.wicket.jquery.ui.chart.Series;
-import com.googlecode.wicket.jquery.ui.chart.data.CategoryData;
+import com.googlecode.wicket.jquery.ui.chart.data.ChartData;
+import com.googlecode.wicket.jquery.ui.chart.model.ChartModel;
 
 public class DefaultChartPage extends AbstractChartPage
 {
@@ -16,7 +16,7 @@ public class DefaultChartPage extends AbstractChartPage
 	public DefaultChartPage()
 	{
 		// Chart //
-		SimpleChart chart = new SimpleChart("chart", newChartModel(), Gallery.Lines);
+		Chart chart = new Chart("chart", newChartModel(), Gallery.Lines);
 		chart.add(new Series("My Series #1"));
 		chart.add(new Series("My Series #2"));
 
@@ -24,29 +24,29 @@ public class DefaultChartPage extends AbstractChartPage
 		this.add(chart);
 	}
 
-	private static ChartModel<?> newChartModel()
+	private static ChartModel newChartModel()
 	{
-		return new ChartModel<CategoryData>() {
+		return new ChartModel() {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected List<CategoryData> load()
+			protected List<ChartData> load()
 			{
-				List<CategoryData> list = new ArrayList<CategoryData>();
+				List<ChartData> list = new ArrayList<ChartData>();
 
-				list.add(new CategoryData("Jan", 180, 75));
-				list.add(new CategoryData("Feb", 176, 55));
-				list.add(new CategoryData("Mar", 174, 84));
-				list.add(new CategoryData("Apr", 175, 72));
-				list.add(new CategoryData("May", 181, 54));
-				list.add(new CategoryData("Jun", 192, 68));
-				list.add(new CategoryData("Jul", 180, 75));
-				list.add(new CategoryData("Aug", 176, 55));
-				list.add(new CategoryData("Sep", 174, 84));
-				list.add(new CategoryData("Oct", 175, 72));
-				list.add(new CategoryData("Nov", 181, 54));
-				list.add(new CategoryData("Dec", 192, 68));
+				list.add(new ChartData("Jan", 180, 75));
+				list.add(new ChartData("Feb", 176, 55));
+				list.add(new ChartData("Mar", 174, 84));
+				list.add(new ChartData("Apr", 175, 72));
+				list.add(new ChartData("May", 181, 54));
+				list.add(new ChartData("Jun", 192, 68));
+				list.add(new ChartData("Jul", 180, 75));
+				list.add(new ChartData("Aug", 176, 55));
+				list.add(new ChartData("Sep", 174, 84));
+				list.add(new ChartData("Oct", 175, 72));
+				list.add(new ChartData("Nov", 181, 54));
+				list.add(new ChartData("Dec", 192, 68));
 
 				return list;
 			}

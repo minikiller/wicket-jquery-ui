@@ -14,48 +14,62 @@ public class TestDemoChartDAO
 {
 	private static final Logger LOG = LoggerFactory.getLogger(TestDemoChartDAO.class);
 
-	public synchronized static void query(Connection connection, String expression) throws SQLException
+	public static void query(Connection connection, String expression) throws SQLException
 	{
-		Statement statement = connection.createStatement();
-		ResultSet rs = statement.executeQuery(expression);
+		Statement statement = null;
 
-		dump(rs);
+		try
+		{
+			statement = connection.createStatement();
 
-		statement.close();
+			ResultSet rs = statement.executeQuery(expression);
+			dump(rs);
+		}
+		finally
+		{
+			if (statement != null)
+			{
+				statement.close();
+			}
+		}
 	}
 
 	public static void dump(ResultSet rs) throws SQLException
 	{
-
 		ResultSetMetaData meta = rs.getMetaData();
 		int colmax = meta.getColumnCount();
-		int i;
-		Object o = null;
 
-		for (; rs.next();)
+		while (rs.next())
 		{
-			for (i = 0; i < colmax; ++i)
+			String out = "";
+
+			for (int i = 0; i < colmax; ++i)
 			{
-				o = rs.getObject(i + 1);
-				LOG.info(o.toString() + " ");
+				out += rs.getObject(i + 1).toString() + " ";
 			}
 
-			LOG.info(" ");
+			LOG.info(out);
 		}
 	}
 
-//	public static void main(String[] args) throws SQLException
-//	{
-//		DemoChartDAO dao = new DemoChartDAO("chart-test.db");
-//
-//		query(dao.getConnection(), "SELECT * FROM [values]");
-//	}
+	public static void main(String[] args) throws SQLException
+	{
+		new TestDemoChartDAO().testDB();
+	}
 
 	@Test
-	public void testDB() throws Exception
+	public void testDB() throws SQLException
 	{
 		DemoChartDAO dao = new DemoChartDAO("chart-test.db");
+		dao.init();
 
-		query(dao.getConnection(), "SELECT * FROM chart_data");
+		try
+		{
+			query(dao.getConnection(), "SELECT c.name, d.seriesId, d.value FROM categories c INNER JOIN data d ON c.id = d.categoryId");
+		}
+		finally
+		{
+			dao.close();
+		}
 	}
 }

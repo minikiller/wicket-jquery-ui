@@ -27,7 +27,8 @@ import com.googlecode.wicket.jquery.ui.chart.AbstractChart;
 import com.googlecode.wicket.jquery.ui.chart.Gallery;
 
 /**
- * TODO: javadoc
+ * Provides a chart with realtime capabilities<br/>
+ * Default duration is 1 second
  *
  * @author Sebastien Briquet - sebfz1
  *
@@ -86,16 +87,31 @@ public abstract class RealTimeChart extends AbstractChart
 	}
 
 	// Properties //
+	/**
+	 * Sets a value for a single series
+	 *
+	 * @param value the value
+	 */
 	public void setValue(Number value)
 	{
 		this.setValues(new Number[] { value });
 	}
 
+	/**
+	 * Sets values for multiple series
+	 *
+	 * @param values values
+	 */
 	public void setValues(Number... values)
 	{
 		this.values = values;
 	}
 
+	/**
+	 * Gets values
+	 *
+	 * @return values
+	 */
 	public Number[] getValues()
 	{
 		return this.values;
@@ -110,12 +126,13 @@ public abstract class RealTimeChart extends AbstractChart
 		this.add(new AbstractAjaxTimerBehavior(this.duration) {
 
 			private static final long serialVersionUID = 1L;
+
 			private int i = 0;
 
 			@Override
 			protected void onTimer(AjaxRequestTarget target)
 			{
-				onInterval(target, i++);
+				RealTimeChart.this.onInterval(target, i++);
 
 				target.appendJavaScript(getStatement());
 			}
@@ -129,28 +146,31 @@ public abstract class RealTimeChart extends AbstractChart
 
 		behavior.setOption("realTime", this.getRealTimeSettings());
 		behavior.setOption("data", "{ series: 2 }");
-//FIXME: issue with bufferSize
+		// FIXME: issue with bufferSize
 
 		// behavior.setOption("data", String.format("{ series: %s }", this.series.size()));
 		// chart1.getDataSourceSettings().reloadData();
 	}
 
 	/**
-	 * TODO javadoc
-	 * @param target
-	 * @param sequence
+	 * Triggered on every duration interval<br/>
+	 * This method is used to sets new values using {@link #setValue(Number)} or {@link #setValues(Number...)}
+	 *
+	 * @param target the {@link AjaxRequestTarget}
+	 * @param sequence the sequence number
 	 */
 	protected abstract void onInterval(AjaxRequestTarget target, int sequence);
 
 	/**
 	 * TODO to be renamed
+	 *
 	 * @return
 	 */
 	protected CharSequence getStatement()
 	{
 		StringBuilder builder = new StringBuilder();
 
-		//TODO: update when chaining will be available
+		// TODO: update when chaining will be available
 		String selector = JQueryWidget.getSelector(this);
 		builder.append(String.format("jQuery('%s').chart('getRealTime').beginAddData(1, cfx.RealTimeAction.Append);", selector));
 
@@ -165,32 +185,59 @@ public abstract class RealTimeChart extends AbstractChart
 	}
 
 	// Properties //
+	/**
+	 * Gets the {@link Duration}
+	 *
+	 * @return the {@link Duration}
+	 */
 	public Duration getDuration()
 	{
 		return this.duration;
 	}
 
-	//TODO javadoc
+	/**
+	 * Sets the {@link Duration}
+	 *
+	 * @param duration the {@link Duration}
+	 */
 	public void setDuration(Duration duration)
 	{
 		this.duration = Args.notNull(duration, "duration");
 	}
 
 	// RealTimeSettings //
+	/**
+	 * Gets the {@link RealTimeSettings}
+	 *
+	 * @return the {@link RealTimeSettings}
+	 */
 	public RealTimeSettings getRealTimeSettings()
 	{
-		return realTimeSettings;
+		return this.realTimeSettings;
 	}
 
+	/**
+	 * Provides the realtime settings options
+	 */
 	public static class RealTimeSettings extends Options
 	{
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Sets the {@link RealTimeMode}
+		 *
+		 * @param mode the {@link RealTimeMode}
+		 */
 		public void setMode(RealTimeMode mode)
 		{
 			this.set("mode", mode);
 		}
 
+		/**
+		 * Sets the buffer size
+		 *
+		 * @param size the buffer size
+		 */
 		public void setBufferSize(int size)
 		{
 			this.set("bufferSize", size);

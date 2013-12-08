@@ -14,28 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.wicket.jquery.ui.chart.realtime;
+package com.googlecode.wicket.jquery.ui.chart.model;
+
+import java.util.List;
+
+import org.apache.wicket.model.LoadableDetachableModel;
+
+import com.googlecode.wicket.jquery.ui.chart.Chart;
+import com.googlecode.wicket.jquery.ui.chart.data.ChartData;
 
 /**
- * Gets an enumeration of realtime actions
+ * Provides the <tt>Model</tt> for {@link Chart}<tt>s</tt>
  *
  * @author Sebastien Briquet - sebfz1
  */
-public enum RealTimeAction
+public abstract class ChartModel extends LoadableDetachableModel<List<ChartData>>
 {
-	Append("cfx.RealTimeAction.Append");
-	// Scroll("cfx.RealTimeAction.???");
+	private static final long serialVersionUID = 1L;
 
-	private String mode;
-
-	RealTimeAction(String cfx)
+	/**
+	 * Constructor
+	 */
+	public ChartModel()
 	{
-		this.mode = cfx;
-	}
-
-	@Override
-	public String toString()
-	{
-		return this.mode;
 	}
 }

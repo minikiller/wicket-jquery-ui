@@ -18,71 +18,105 @@ package com.googlecode.wicket.jquery.ui.chart.data;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import com.googlecode.wicket.jquery.core.Options;
 
 /**
- * Provides a category/points data<br/>
+ * Provides data the for chart model<br/>
  * Values should be inserted in the same order of declared series.
  *
  * @author Sebastien Briquet - sebfz1
  */
-public class CategoryData implements IChartData
+public class ChartData implements IChartData
 {
 	private static final DateFormat ISO8601_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
 	private final String category;
-	private final Number[] values;
+	private final List<Number> values;
 
 	/**
-	 * @param category could be a ISO 8601 date string (yyyy-MM-ddTHH:mm:ss.fffZ)
+	 * Constructor
+	 *
+	 * @param category the category; can be an ISO 8601 date (yyyy-MM-ddTHH:mm:ss.fffZ)
 	 * @param values the series values
 	 */
-	public CategoryData(String category, Number... values)
+	public ChartData(String category, Number... values)
 	{
 		this.category = category;
-		this.values = values;
+		this.values = new ArrayList<Number>(Arrays.asList(values));
 	}
 
 	/**
+	 * Constructor
+	 *
 	 * @param category the {@link Date}
 	 * @param values the series values
 	 */
-	public CategoryData(Date category, Number... values)
+	public ChartData(Date category, Number... values)
 	{
 		this.category = ISO8601_FORMAT.format(category);
-		this.values = values;
+		this.values = new ArrayList<Number>(Arrays.asList(values));
 	}
 
+	/**
+	 * Gets the category
+	 *
+	 * @return the category
+	 */
 	public String getCategory()
 	{
 		return this.category;
 	}
 
-	public Number[] getValues()
+	/**
+	 * Gets the values (immutable)
+	 *
+	 * @return the values
+	 */
+	public List<Number> getValues()
 	{
-		return this.values;
+		return Collections.unmodifiableList(this.values);
 	}
 
-	@Override
-	public void toJson(StringBuilder builder)
+	/**
+	 * Adds a value to the list of values hold by this {@link ChartData}
+	 *
+	 * @param value the value
+	 * @return <tt>true</tt> (as specified by {@link Collection#add})
+	 */
+	public boolean add(Number value)
 	{
-		builder.append("{ ");
+		return this.values.add(value);
+	}
+
+	/**
+	 * Gets the JSON representation of this {@link ChartData}
+	 */
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder("{ ");
+
 		builder.append(Options.QUOTE).append("category").append(Options.QUOTE).append(": ");
 		builder.append(Options.QUOTE).append(this.getCategory()).append(Options.QUOTE);
 
-		Number[] values = this.getValues();
+		List<Number> values = this.getValues();
 
-		for (int i = 0; i < values.length; i++)
+		for (int i = 0; i < values.size(); i++)
 		{
-			Number value = values[i];
+			Number value = values.get(i);
 
 			builder.append(", ");
 			builder.append(Options.QUOTE).append("s").append(i).append(Options.QUOTE).append(": ");
 			builder.append(value);
 		}
 
-		builder.append(" }");
+		return builder.append(" }").toString();
 	}
 }

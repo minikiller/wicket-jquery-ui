@@ -21,10 +21,9 @@ import com.googlecode.wicket.jquery.core.JQueryContainer;
 import com.googlecode.wicket.jquery.core.Options;
 
 /**
- * TODO: javadoc
+ * Provides the base class for charts
  *
  * @author Sebastien Briquet - sebfz1
- *
  */
 public abstract class AbstractChart extends JQueryContainer
 {

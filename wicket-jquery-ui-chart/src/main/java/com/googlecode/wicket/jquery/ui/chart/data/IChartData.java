@@ -18,5 +18,5 @@ package com.googlecode.wicket.jquery.ui.chart.data;
 
 public interface IChartData
 {
-	void toJson(StringBuilder builder);
+//	CharSequence toJson();
 }
