@@ -6,11 +6,10 @@ import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
-import org.apache.wicket.markup.repeater.data.ListDataProvider;
 
 import com.googlecode.wicket.jquery.core.Options;
-import com.googlecode.wicket.jquery.ui.samples.data.ProductsDAO;
 import com.googlecode.wicket.jquery.ui.samples.data.bean.Product;
+import com.googlecode.wicket.jquery.ui.samples.data.provider.ProductDataProvider;
 import com.googlecode.wicket.kendo.ui.datatable.DataTable;
 import com.googlecode.wicket.kendo.ui.datatable.column.IColumn;
 import com.googlecode.wicket.kendo.ui.datatable.column.PropertyColumn;
@@ -32,9 +31,12 @@ public class DefaultDataTablePage extends AbstractDataTablePage
 
 		Options options = new Options();
 		options.set("height", 430);
-		options.set("pageable", "{ pageSizes: [ 10, 20, 30 ] }");
+		options.set("pageable", "{ pageSizes: [ 25, 50, 100 ] }");
+		options.set("sortable", true);
+		options.set("groupable", true);
+		options.set("columnMenu", true);
 
-		final DataTable<Product> table = new DataTable<Product>("datatable", columns, provider, 20, options);
+		final DataTable<Product> table = new DataTable<Product>("datatable", columns, provider, 25, options);
 		form.add(table);
 
 		// Button //
@@ -52,18 +54,18 @@ public class DefaultDataTablePage extends AbstractDataTablePage
 
 	private static IDataProvider<Product> newDataProvider()
 	{
-		return new ListDataProvider<Product>(ProductsDAO.all());
+		return new ProductDataProvider();
 	}
 
 	private static List<IColumn> newColumnList()
 	{
 		List<IColumn> columns = new ArrayList<IColumn>();
 
-		columns.add(new PropertyColumn("ID", "id", 30));
+		columns.add(new PropertyColumn("ID", "id", 50));
 		columns.add(new PropertyColumn("Name", "name"));
 		columns.add(new PropertyColumn("Description", "description"));
-		columns.add(new PropertyColumn("Unit Price", "price"));
-//		columns.add(new PropertyColumn("Vendor", "vendor.name"));
+		columns.add(new PropertyColumn("Price", "price", 70));
+		columns.add(new PropertyColumn("Vendor", "vendor.name"));
 
 		return columns;
 	}
